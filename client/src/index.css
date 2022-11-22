@@ -1,0 +1,428 @@
+@import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700;800&display=swap');
+
+html, body {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+h2 {
+    font-style: italic;
+}
+
+* {
+    font-family: 'Readex Pro', sans-serif;
+}
+
+.primary-title {
+    font-size: 90px;
+    color: rgb(32, 185, 57);
+    text-shadow: 1px 2px 5px black
+    
+}
+
+.primary-button {
+    color: rgb(255,255,255);
+    text-transform: uppercase;
+    font-size: 15px;
+    background: linear-gradient(45deg, rgb(10, 8, 165), rgb(105, 10, 114));
+    padding: 12px 30px;
+    border-radius: 30px;
+    border: none;
+    box-shadow: 0px 0px 15px 1px rgb(32, 185, 57);
+}
+
+.primary-button:hover {
+    background: linear-gradient(260deg, rgb(32, 185, 57), rgb(32, 185, 57));
+}
+
+.secondary-button {
+    color: rgb(121, 119, 119);
+    background-color: rgb(255, 255, 255);
+    font-weight: 500;
+    font-size: 15px;
+    text-transform: uppercase;
+    padding: 12px 30px;
+    border-radius: 30px;
+    border: solid 2px rgb(121, 119, 119);
+    margin: 6px;
+}
+
+.secondary-button:hover {
+    color: rgb(48, 48, 48);
+    border: solid 2px rgb(48, 48, 48);
+}
+
+
+/*-------- Navbar --------*/
+
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav .nav-button {
+    color: rgb(248, 248, 248);
+    background: linear-gradient(90deg, rgba(32, 30, 146, 0.966), rgb(134, 65, 190));
+    font-size: 20px;
+    height: 60px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    margin: 10px;
+    box-shadow: 0px 0px 15px 1px rgb(92, 35, 59);
+    
+}
+nav .nav-button:hover {
+    background: linear-gradient(260deg, rgb(32, 185, 57), rgb(32, 185, 57));
+}
+
+
+nav .nav-button:disabled {
+    background-color: rgb(181, 180, 180);
+    color: rgb(189, 42, 90);
+}
+
+nav .logo-container {
+    width: 170px;
+    margin: 15px;
+    
+}
+
+nav .logo-container .logo {
+    width: 100%;
+}
+
+/*-------- Home page --------*/
+.overlay {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.65) 0%,
+            rgba(0, 0, 0, 0) 25%
+    ), url('images/gethersplashpage2.gif');
+    background-repeat:no-repeat;
+    background-size:cover;
+}
+
+.home {
+    margin-top: 30vh;
+}
+
+/*-------- Auth Modal --------*/
+.auth-modal {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 360px;
+    height: 600px;
+    background: linear-gradient(0deg, rgba(32, 30, 146, 0.966), rgb(134, 65, 190));
+    border-radius: 20px;
+    padding: 40px;
+    color: white
+}
+
+.auth-modal .close-icon {
+    float: right;
+}
+
+.auth-modal form {
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-modal input[type=password],
+.auth-modal input[type=email] {
+    padding: 8px;
+    margin: 8px;
+    font-size: 17px;
+}
+
+/*-------- OnBoarding Page --------*/
+.onboarding {
+    border-top: solid 3px rgb(32, 185, 57);
+    background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.65) 0%,
+            rgba(0, 0, 0, 0) 5%
+    ), url('images/ps-bg.png');
+    color: white;
+    text-shadow: 1px 1px 2px purple;
+    
+    
+}
+
+.onboarding form {
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-size: 15px;
+    text-shadow: 1px 1px 2px purple;
+}
+
+.onboarding form section {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 35%;
+    text-align: start;
+}
+
+/*ONBOARDING BOX COLORS*/
+.onboarding form input {
+    padding: 15px 30px;
+    margin: 10px 0;
+    font-size: 15px;
+    border: solid 4px rgb(14, 139, 223);
+    border-radius: 10px;
+}
+
+.onboarding form label {
+    margin: 10px 0;
+}
+
+.onboarding form .multiple-input-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.onboarding form input::-webkit-outer-spin-button,
+.onboarding form input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.onboarding form .multiple-input-container input {
+    margin-right: 10px;
+}
+
+.onboarding form .multiple-input-container label {
+    padding: 10px;
+    border: solid 2px rgb(144, 144, 144);
+    border-radius: 10px;
+    transition: all 0.3s;
+    margin-right: 10px;
+}
+
+.onboarding form input[type=radio] {
+    display: none;
+}
+
+.onboarding form input[type=number] {
+    width: 10%;
+}
+
+.onboarding form input[type=radio]:checked + label {
+    border: solid 4px rgb(32, 185, 57);
+    border-radius: 25px;
+
+}
+
+
+
+.onboarding form input[type=submit]:hover {
+    background-color: rgb(235, 235, 235);
+}
+
+.onboarding form input[type=submit]:active {
+    background-color: rgb(32, 185, 57);
+    border-radius: 25px;
+
+}
+
+.onboarding form .photo-container img {
+    width: 50%
+}
+
+
+.onboarding form input .gaming-input-container [type=checkbox]::after{
+    border: solid 4px rgb(32, 185, 57);
+    border-radius: 25px;
+}
+
+
+/*-------- Dashboard  --------*/
+.dashboard {
+    display: flex;
+    justify-content: space-between;
+    background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.65) 0%,
+            rgba(0, 0, 0, 0) 25%
+    ), url('images/ps-bg.png')
+}
+
+.dashboard .swipe-container {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.swipe {
+    position: absolute;
+}
+
+.dashboard .card-container {
+    width: 800px;
+    height: 740px;
+}
+
+.card {
+    width: 500px;
+    height: 750px;
+    border-radius: 30px;
+    background-size: cover;
+    background-position: center;
+}
+
+.card h3 {
+    margin-top: 0;
+    color:white;
+    
+}
+
+.dashboard .swipe-info {
+    position: absolute;
+    bottom: 0;
+    padding: 0px;
+    color:white;
+    font-size: 20px;
+    width: 600px;
+    height: 65px;
+    text-transform: uppercase;
+    
+}
+
+/*-------- CHAT CONTAINER BOX --------*/
+.chat-container {
+    background-color: rgb(235, 235, 235);
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    width: 18%;
+    text-align: left;
+    z-index: 1;
+}
+
+.chat-container .chat-container-header {
+    background: linear-gradient(45deg,  rgba(32, 30, 146, 0.966), rgb(134, 65, 190));
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-container .option {
+    border: none;
+    background-color: rgb(255, 255, 255);
+    border-bottom: solid 4px rgb(32, 185, 57);
+    font-size: 20px;
+    margin: 5px;
+    padding: 10px;
+}
+
+.chat-container .option:disabled {
+    border-bottom: solid 4px rgb(179, 32, 32);
+}
+
+
+/*USER PROFILE HEADER TEXT COLOR*/
+.chat-container .profile,
+.chat-container .log-out-icon {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    color: rgb(255, 255, 255);
+}
+
+
+/* USER PROFILE IMAGE IN CHAT HEADER*/
+.img-container {
+    height: 90px;
+    width: 90px;
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 10px;
+}
+
+.img-container img {
+    width: 100%;
+}
+
+/*-------- Chat Display --------*/
+.chat-display,
+.matches-display {
+    padding: 20px;
+    height: 60vh;
+    overflow-y: auto;
+
+}
+
+/*Username in Chat Box*/
+.message-username {
+    color: blue;
+    height: 10px;
+    text-shadow: 1px 1px 1px purple;
+}
+
+/*-------- Chat Input --------*/
+.chat-input {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
