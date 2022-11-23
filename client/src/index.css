@@ -46,6 +46,7 @@ h2 {
     border-radius: 30px;
     border: solid 2px rgb(121, 119, 119);
     margin: 6px;
+    cursor: pointer;
 }
 
 .secondary-button:hover {
@@ -53,46 +54,6 @@ h2 {
     border: solid 2px rgb(48, 48, 48);
 }
 
-
-/*-------- Navbar --------*/
-
-nav {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
-
-nav .nav-button {
-    color: rgb(248, 248, 248);
-    background: linear-gradient(90deg, rgba(32, 30, 146, 0.966), rgb(134, 65, 190));
-    font-size: 20px;
-    height: 60px;
-    padding: 10px 20px;
-    border-radius: 10px;
-    border: none;
-    margin: 10px;
-    box-shadow: 0px 0px 15px 1px rgb(92, 35, 59);
-    
-}
-nav .nav-button:hover {
-    background: linear-gradient(260deg, rgb(32, 185, 57), rgb(32, 185, 57));
-}
-
-
-nav .nav-button:disabled {
-    background-color: rgb(181, 180, 180);
-    color: rgb(189, 42, 90);
-}
-
-nav .logo-container {
-    width: 170px;
-    margin: 15px;
-    
-}
-
-nav .logo-container .logo {
-    width: 100%;
-}
 
 /*-------- Home page --------*/
 .overlay {
@@ -130,6 +91,15 @@ nav .logo-container .logo {
 
 .auth-modal .close-icon {
     float: right;
+    cursor: pointer;
+    font-size: 24px;
+    transition: .1s ease-in;
+    color: #9c9c9c;
+}
+
+.auth-modal .close-icon:hover{
+    font-size: 26px;
+    color:white
 }
 
 .auth-modal form {
