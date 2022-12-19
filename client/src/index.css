@@ -124,8 +124,6 @@ h2 {
     ), url('images/ps-bg.png');
     color: white;
     text-shadow: 1px 1px 2px purple;
-    
-    
 }
 
 .onboarding form {
@@ -191,7 +189,6 @@ h2 {
 .onboarding form input[type=radio]:checked + label {
     border: solid 4px rgb(32, 185, 57);
     border-radius: 25px;
-
 }
 
 

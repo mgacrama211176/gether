@@ -32,12 +32,21 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
           `http://localhost:8000/${isSignUp ? "signup" : "login"}`,
           { email, password }
         );
-        setCookie("AuthToken", response.data.token);
-        setCookie("UserId", response.data.userId);
+
+        setCookie("AuthToken", response.data.token, { path: "/" });
+        setCookie("UserId", response.data.userId, { path: "/" });
 
         const success = response.status === 201;
-        if (success && isSignUp) navigate("/onboarding");
-        if (success && !isSignUp) navigate("/dashboard");
+
+        if (success && email === "admin@admin.com") {
+          navigate("/admin");
+        } else {
+          if (success && isSignUp) {
+            navigate("/onboarding");
+          } else {
+            navigate("/dashboard");
+          }
+        }
 
         window.location.reload();
       } catch (err) {

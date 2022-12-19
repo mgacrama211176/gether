@@ -1,23 +1,37 @@
-const PORT = 8000;
-const express = require("express");
-const { MongoClient } = require("mongodb");
-const { v4: uuidv4 } = require("uuid");
-const jwt = require("jsonwebtoken");
-const cors = require("cors");
-const bcrypt = require("bcrypt");
-const { response } = require("express");
-require("dotenv").config();
+import express from "express";
+import { MongoClient } from "mongodb";
+import { v4 as uuidv4 } from "uuid";
+import jwt from "jsonwebtoken";
+import cors from "cors";
+import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+
+//Routers
+import adminRouter from "./router/adminRouter.js";
+
+dotenv.config();
 
 const uri = process.env.URI;
-
+const PORT = 8000;
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use((err, request, response, next) => {
+  const status = err.status || 500;
+  const message = err.message || "Something went wrong";
+  return response.status(status).json({
+    success: false,
+    status: status,
+    message: message,
+  });
+});
 
 // Default
 app.get("/", (req, res) => {
   res.json("Hello to my app");
 });
+
+app.use("/admin", adminRouter);
 
 // Sign up to the Database
 app.post("/signup", async (req, res) => {
@@ -55,6 +69,50 @@ app.post("/signup", async (req, res) => {
     res.status(201).json({ token, userId: generatedUserId });
   } catch (err) {
     res.status(500).json(err);
+  } finally {
+    await client.close();
+  }
+});
+
+// Create Account using Admin
+app.post("/admin/signup", async (request, response, next) => {
+  const client = new MongoClient(uri);
+  const { email, password } = request.body;
+
+  const generatedUserId = uuidv4();
+  const salt = bcrypt.genSaltSync(10);
+  const hashedPassword = bcrypt.hashSync(request.body.password, salt);
+
+  try {
+    await client.connect();
+    const database = client.db("GetherPairingDB");
+    const users = database.collection("users");
+    const existingUser = await users.findOne({ email });
+    if (existingUser) {
+      return response.status(409).send("User already exists. Please login");
+    }
+    const sanitizedEmail = email.toLowerCase();
+    const data = {
+      user_id: generatedUserId,
+      email: sanitizedEmail,
+      hashed_password: hashedPassword,
+      about: request.body.about,
+      birthDate: request.body.birthDate,
+      first_name: request.body.first_name,
+      gender_identity: request.body.gender_identity,
+      gender_interest: request.body.gender_interest,
+      matches: request.body.matches,
+      show_gender: request.body.show_gender,
+      url: request.body.url,
+    };
+    const insertedUser = await users.insertOne(data);
+    const token = jwt.sign(insertedUser, sanitizedEmail, {
+      expiresIn: 60 * 24,
+    });
+    // response.status(200).json(hashedPassword);
+    response.status(201).json({ token, userId: generatedUserId });
+  } catch (err) {
+    next(err);
   } finally {
     await client.close();
   }
