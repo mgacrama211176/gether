@@ -75,7 +75,6 @@ const Dashboard = () => {
     (genderedUser) => !matchedUserIds.includes(genderedUser.user_id)
   );
 
-  console.log("filteredGenderedUsers ", filteredGenderedUsers);
   return (
     <>
       {user && (

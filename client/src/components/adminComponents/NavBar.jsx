@@ -96,28 +96,18 @@ function ResponsiveAppBar({ type, setType }) {
               }}
             >
               {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={() => {
-                    setType(page);
-                  }}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                >
-                  {page}
-                </Button>
+                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <Button
+                    key={page}
+                    onClick={() => {
+                      setType(page);
+                    }}
+                    sx={{ color: "black" }}
+                  >
+                    {page}
+                  </Button>
+                </MenuItem>
               ))}
-              <MenuItem>
-                <Typography
-                  textAlign="center"
-                  onClick={() => {
-                    console.log(`Add`);
-                  }}
-                >
-                  ADD USER
-                </Typography>
-                {/* <Button variant="text"> ADD USER</Button> */}
-                <Typography textAlign="center">VIEW USERS</Typography>
-              </MenuItem>
             </Menu>
           </Box>
 
