@@ -8,7 +8,10 @@ const ContainerStyle = {
   display: "flex",
   flexFlow: "wrap row",
   gap: 1,
-  marginTop: 3,
+
+  justifyContent: "center",
+  alignItems: "center",
+  width: "100%",
 };
 
 const ViewUser = () => {

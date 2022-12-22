@@ -14,9 +14,10 @@ export default function ImgMediaCard(user) {
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
-        alt="green iguana"
-        height="140"
+        height="150"
+        width="100%"
         image={variableCall.url}
+        sx={{ objectFit: "scale-down" }}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

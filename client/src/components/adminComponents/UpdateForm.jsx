@@ -28,6 +28,7 @@ export default function App({
     } else {
       setMatchStatus("Password match!");
     }
+
     console.log(newUser);
     setUpdateUser(newUser);
   };

@@ -13,10 +13,6 @@ import ViewUser from "../components/adminComponents/ViewUser";
 const Admin = () => {
   const [type, setType] = useState("Add User");
 
-  useEffect(() => {
-    console.log(type);
-  }, [type]);
-
   return (
     <Container
       maxWidth="xxl"
@@ -29,7 +25,7 @@ const Admin = () => {
     >
       <Navbar type={type} setType={setType} />
 
-      <Box sx={{ width: "800px", margin: "0 auto", padding: "50px" }}>
+      <Box sx={{ margin: "0 auto", padding: "50px" }}>
         {type === "Add User" ? (
           <>
             <ManualAddUser />

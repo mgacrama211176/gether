@@ -66,6 +66,8 @@ const OnBoarding = () => {
     matches: [],
   });
 
+  const [matchStatus, setMatchStatus] = useState("");
+
   const navigate = useNavigate();
 
   const SubmitHandler = async (e) => {
@@ -106,7 +108,14 @@ const OnBoarding = () => {
   const onChangeHandler = (e) => {
     const newUser = { ...formData };
     newUser[e.target.name] = e.target.value;
-    console.log(newUser);
+
+    if (newUser.cpassword != newUser.password) {
+      setMatchStatus("Password does not match!");
+      return;
+    } else {
+      setMatchStatus("Password match!");
+    }
+
     setFormData(newUser);
   };
 
@@ -114,9 +123,16 @@ const OnBoarding = () => {
     <>
       <div>
         <ThemeProvider theme={theme}>
-          <FormContainer sx={{ padding: 3, minWidth: "100%" }}>
+          <FormContainer sx={{ padding: 3 }}>
             <h2>Overide Add User</h2>
-            <Box sx={{ display: "flex", gap: 5 }}>
+            <Box
+              sx={{
+                display: "flex",
+                gap: 5,
+                justifyContent: "center",
+                width: "100%",
+              }}
+            >
               <Box>
                 <FormControl
                   sx={{
@@ -151,6 +167,7 @@ const OnBoarding = () => {
                     required
                   />
                 </FormControl>
+                {matchStatus}
               </Box>
               <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                 <TextField
@@ -158,6 +175,7 @@ const OnBoarding = () => {
                   variant="outlined"
                   name="first_name"
                   onChange={(e) => onChangeHandler(e)}
+                  required
                 />
 
                 <TextField

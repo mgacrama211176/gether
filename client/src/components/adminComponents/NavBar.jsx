@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,18 +11,15 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
-import { Tabs, Tab } from "@mui/material";
+import { useCookies } from "react-cookie";
 
 import { useNavigate } from "react-router-dom";
 
-//Components
-import SettingsMenu from "./SettingsMenu";
-
 const pages = ["Add User", "View Users"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Dashboard", "Logout"];
 
 function ResponsiveAppBar({ type, setType }) {
+  const [cookies, removeCookie] = useCookies(["user"]);
   const nav = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -43,13 +40,20 @@ function ResponsiveAppBar({ type, setType }) {
     setAnchorElUser(null);
   };
 
-  //Setting Navigation
-  const SettingNav = (setting) => {
-    console.log(setting);
-    if (setting === "Logout") {
+  const [settingOption, setSettingOption] = useState("");
+
+  console.log(settingOption);
+
+  useEffect(() => {
+    if (settingOption === "Dashboard") {
+      nav("/dashboard");
+    } else if (settingOption === "Logout") {
+      removeCookie("UserId", cookies.UserId);
+      removeCookie("AuthToken", cookies.AuthToken);
       nav("/");
+    } else {
     }
-  };
+  }, [settingOption]);
 
   return (
     <AppBar
@@ -114,7 +118,6 @@ function ResponsiveAppBar({ type, setType }) {
                 {/* <Button variant="text"> ADD USER</Button> */}
                 <Typography textAlign="center">VIEW USERS</Typography>
               </MenuItem>
-              {/* ))} */}
             </Menu>
           </Box>
 
@@ -172,7 +175,18 @@ function ResponsiveAppBar({ type, setType }) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <SettingsMenu />
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography
+                    textAlign="center"
+                    onClick={() => {
+                      setSettingOption(setting);
+                    }}
+                  >
+                    {setting}
+                  </Typography>
+                </MenuItem>
+              ))}
             </Menu>
           </Box>
         </Toolbar>

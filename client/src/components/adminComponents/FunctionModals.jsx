@@ -41,10 +41,8 @@ export const DeleteModal = ({ user }) => {
 
   const deleteButton = async () => {
     console.log(user.user_id);
-    const id = user.user_id;
-
     const deleteData = await axios.delete(
-      `http://localhost:8000/admin/deleteUser/${id}`
+      `http://localhost:8000/admin/deleteUser/${user.user_id}`
     );
 
     console.log(deleteData.status);
