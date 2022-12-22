@@ -195,7 +195,9 @@ export const MatchUserModal = ({ user }) => {
               }}
             >
               {fetched.map((fetch) => (
-                <RetrievedUserCard fetch={fetch} key={fetch.index} />
+                <div key={fetch._id}>
+                  <RetrievedUserCard fetch={fetch} />
+                </div>
               ))}
             </Box>
           </Box>

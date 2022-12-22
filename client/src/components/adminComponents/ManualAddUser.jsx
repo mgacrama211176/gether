@@ -98,8 +98,8 @@ const OnBoarding = () => {
         about: "",
         matches: [],
       });
-      console.log(response);
-      //   if (success) navigate("/dashboard");
+      console.log(response.data);
+      navigate("/admin");
     } catch (err) {
       console.log(err);
     }

@@ -42,8 +42,6 @@ function ResponsiveAppBar({ type, setType }) {
 
   const [settingOption, setSettingOption] = useState("");
 
-  console.log(settingOption);
-
   useEffect(() => {
     if (settingOption === "Dashboard") {
       nav("/dashboard");
