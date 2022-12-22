@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Container from "@mui/material/Container";
 import BGImage from "../images/ps-bg.png";
 
@@ -11,18 +11,34 @@ import ManualAddUser from "../components/adminComponents/ManualAddUser";
 import ViewUser from "../components/adminComponents/ViewUser";
 
 const Admin = () => {
+  const [type, setType] = useState("Add User");
+
+  useEffect(() => {
+    console.log(type);
+  }, [type]);
+
   return (
     <Container
       maxWidth="xxl"
       sx={{
         backgroundImage: `url(${BGImage})`,
-        height: "100vh",
+        backgroundSize: "contain",
+        backgroundPosition: "center",
+        minHeight: "100vh",
       }}
     >
-      <Navbar />
-      <Box sx={{ width: "800px", margin: "auto" }}>
-        {/* <ManualAddUser /> */}
-        <ViewUser />
+      <Navbar type={type} setType={setType} />
+
+      <Box sx={{ width: "800px", margin: "0 auto", padding: "50px" }}>
+        {type === "Add User" ? (
+          <>
+            <ManualAddUser />
+          </>
+        ) : (
+          <>
+            <ViewUser />
+          </>
+        )}
       </Box>
     </Container>
   );

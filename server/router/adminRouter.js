@@ -3,6 +3,7 @@ import {
   fetchAllUsers,
   deleteUserController,
   updateController,
+  matchedRouter,
 } from "../controller/adminController.js";
 
 const router = express();
@@ -15,5 +16,7 @@ router.delete("/deleteUser/:UserID", deleteUserController);
 
 //Update information for specific User.id
 router.put("/updateUser/:UserID", updateController);
+
+router.get("/matched/:id", matchedRouter);
 
 export default router;

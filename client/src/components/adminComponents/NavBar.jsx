@@ -12,16 +12,17 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import { Tabs, Tab } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 
 //Components
 import SettingsMenu from "./SettingsMenu";
 
-const pages = ["Add User", "Remove User", "Edit User", "Reports"];
+const pages = ["Add User", "View Users"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar({ type, setType }) {
   const nav = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -91,10 +92,29 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
+                <Button
+                  key={page}
+                  onClick={() => {
+                    setType(page);
+                  }}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page}
+                </Button>
               ))}
+              <MenuItem>
+                <Typography
+                  textAlign="center"
+                  onClick={() => {
+                    console.log(`Add`);
+                  }}
+                >
+                  ADD USER
+                </Typography>
+                {/* <Button variant="text"> ADD USER</Button> */}
+                <Typography textAlign="center">VIEW USERS</Typography>
+              </MenuItem>
+              {/* ))} */}
             </Menu>
           </Box>
 
@@ -120,7 +140,9 @@ function ResponsiveAppBar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => {
+                  setType(page);
+                }}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 {page}

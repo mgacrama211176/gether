@@ -83,3 +83,30 @@ export const updateController = async (request, response, next) => {
     await client.close();
   }
 };
+
+export const matchedRouter = async (request, response, next) => {
+  const user = request.params.id;
+
+  //connect with DB 1st
+  const client = new MongoClient(uri);
+  try {
+    await client.connect();
+    const database = client.db("GetherPairingDB");
+    const users = database.collection("users");
+
+    const user = request.params.id;
+    const fetchData = await users
+      .find({ matches: { user_id: user } })
+      .toArray();
+
+    response.status(200).json(fetchData);
+  } catch (err) {
+    next(err);
+  } finally {
+    await client.close();
+  }
+
+  //retrieve the data of the user
+  //find the matched users on the array
+  //display all the matched users
+};
