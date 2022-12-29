@@ -252,6 +252,7 @@ app.put("/user", async (req, res) => {
         dob_day: formData.dob_day,
         dob_month: formData.dob_month,
         dob_year: formData.dob_year,
+        gaming_interest: formData.gaming_interest,
         show_gender: formData.show_gender,
         gender_identity: formData.gender_identity,
         gender_interest: formData.gender_interest,

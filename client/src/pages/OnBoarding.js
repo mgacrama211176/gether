@@ -4,13 +4,15 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const OnBoarding = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(null);
+  const [cookies] = useCookies(null);
+  const [checkedValues, setCheckedValues] = useState([]);
   const [formData, setFormData] = useState({
     user_id: cookies.UserId,
     first_name: "",
     dob_day: "",
     dob_month: "",
     dob_year: "",
+    gaming_interest: checkedValues,
     show_gender: false,
     gender_identity: "man",
     gender_interest: "woman",
@@ -19,10 +21,15 @@ const OnBoarding = () => {
     matches: [],
   });
 
+  const genreOptions = [
+    { value: "Sandbox", label: "Sandbox" },
+    { value: "RTS", label: "Real-time Strategy" },
+    { value: "Shooter", label: "Shooter Games" },
+  ];
+
   let navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    console.log("submitted");
     e.preventDefault();
     try {
       const response = await axios.put("http://localhost:8000/user", {
@@ -36,28 +43,40 @@ const OnBoarding = () => {
     }
   };
 
+  // Handle changes to the checkbox group
   const handleChange = (e) => {
-    console.log("e", e);
-    const value =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
     const name = e.target.name;
+    const value = e.target.value;
+    let updatedCheckedValues;
 
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    if (name === "gaming_interest") {
+      // If the checkbox is checked, add its value to the state array.
+      // Otherwise, remove the value from the array.
+      if (e.target.checked) {
+        updatedCheckedValues = [...checkedValues, value];
+      } else {
+        updatedCheckedValues = checkedValues.filter((val) => val !== value);
+      }
+
+      setCheckedValues(updatedCheckedValues);
+
+      // Update the form data with the new gaming_interest values
+      setFormData((prevState) => ({
+        ...prevState,
+        gaming_interest: updatedCheckedValues,
+      }));
+    } else {
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
+
+  console.log(formData);
 
   return (
     <>
-      {/* annoying nav logo white bar
-            <Nav
-                minimal={true}
-                setShowModal={() => {
-                }}
-                showModal={false}
-            />
-            */}
       <div className="onboarding">
         <h2>CREATE ACCOUNT</h2>
 
@@ -138,54 +157,52 @@ const OnBoarding = () => {
               <label htmlFor="more-gender-identity">More</label>
             </div>
 
+            {/* GAMING INTEREST PART */}
             <> </>
-            <label> Gaming Genre Interest</label>
+            <label>Your gaming Genre Interests (Check all that apply) :</label>
             <> </>
-            {/* 
-                        <div className="gaming-input-container">
-                            <input
-                                id="sandbox-gaming-genre"
-                                type="checkbox"
-                                name="gaming_interest"
-                                value="sandbox"
-                                onChange={handleChange}
-                                checked={formData.gaming_interest === "sandbox"}
-                            />
-                                <label htmlFor="sandbox-gaming-genre">Sandbox</label>
 
-                            <input
-                                id="rts-gaming-genre"
-                                type="checkbox"
-                                name="gaming_interest"
-                                value="rts"
-                                onChange={handleChange}
-                                checked={formData.gaming_interest === "rts"}
-                            />
-                                <label htmlFor="rts-gaming-genre">Real-Time Strategy</label>
+            {genreOptions.map((option) => (
+              <label key={option.value}>
+                <input
+                  name="gaming_interest"
+                  type="checkbox"
+                  value={option.value}
+                  checked={checkedValues.includes(option.value)}
+                  onChange={handleChange}
+                />
+                {option.label}
+              </label>
+            ))}
 
-                            <input
-                                id="shooter-gaming-genre"
-                                type="checkbox"
-                                name="gaming_interest"
-                                value="shooter"
-                                onChange={handleChange}
-                                checked={formData.gaming_interest === "shooter"}
-                            />
-                                <label htmlFor="shooter-gaming-genre">Shooter Games</label>
+            {/* SHOW GENDER PREF */}
+            <div>
+              <label>Would you like everyone to see your gender?</label>
 
-                        </div> 
-            */}
-            {/*
-                        <label htmlFor="show-gender">Show Gender on my Profile</label>
+              <div className="multiple-input-container">
+                <input
+                  id="yes-show_gender"
+                  type="radio"
+                  name="show_gender"
+                  value={true}
+                  onChange={(e) => handleChange(e)}
+                />
 
-                        <input
-                            id="show-gender"
-                            type="checkbox"
-                            name="show_gender"
-                            onChange={handleChange}
-                            checked={formData.show_gender}
-                        />
-                    */}
+                <label htmlFor="yes-show_gender">YES</label>
+
+                <input
+                  id="no-show_gender"
+                  type="radio"
+                  name="show_gender"
+                  value={false}
+                  onChange={(e) => handleChange(e)}
+                />
+                <label htmlFor="no-show_gender">NO</label>
+              </div>
+            </div>
+
+            {/* SEXUAL INTEREST */}
+
             <label>Sexual Preference/Interest</label>
 
             <div className="multiple-input-container">

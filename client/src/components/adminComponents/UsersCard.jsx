@@ -9,6 +9,7 @@ import { DeleteUser, EditUser, UserMatches } from "./ViewUserFunctions";
 
 export default function ImgMediaCard(user) {
   const variableCall = user.user;
+  const interests = variableCall.gaming_interest;
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -28,6 +29,9 @@ export default function ImgMediaCard(user) {
         </Typography>
         <Typography variant="body2" color="text.secondary">
           About: {variableCall.about}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Gaming Cat: {interests}
         </Typography>
       </CardContent>
       <CardActions>

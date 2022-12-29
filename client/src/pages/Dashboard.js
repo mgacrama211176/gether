@@ -17,6 +17,7 @@ const Dashboard = () => {
       const response = await axios.get("http://localhost:8000/user", {
         params: { userId },
       });
+
       setUser(response.data);
     } catch (error) {
       console.log(error);
@@ -28,6 +29,7 @@ const Dashboard = () => {
       const response = await axios.get("http://localhost:8000/gendered-users", {
         params: { gender: user?.gender_interest },
       });
+      console.log(response);
       setGenderedUsers(response.data);
     } catch (error) {
       console.log(error);
@@ -72,7 +74,7 @@ const Dashboard = () => {
     .concat(userId);
 
   const filteredGenderedUsers = genderedUsers?.filter(
-    (genderedUser) => !matchedUserIds.includes(genderedUser.user_id)
+    (genderedUser) => !matchedUserIds?.includes(genderedUser.user_id)
   );
 
   return (
@@ -94,6 +96,7 @@ const Dashboard = () => {
                     className="card"
                   >
                     <h3>{genderedUser.first_name}</h3>
+                    <h3>Gaming Categories: {genderedUser.gaming_interest}</h3>
                   </div>
                 </TinderCard>
               ))}

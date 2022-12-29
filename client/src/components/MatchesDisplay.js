@@ -14,6 +14,7 @@ const MatchesDisplay = ({ matches, setClickedUser }) => {
       const response = await axios.get("http://localhost:8000/users", {
         params: { userIds: JSON.stringify(matchedUserIds) },
       });
+
       setMatchedProfiles(response.data);
     } catch (error) {
       console.log(error);
@@ -41,6 +42,7 @@ const MatchesDisplay = ({ matches, setClickedUser }) => {
           <div className="img-container">
             <img src={match?.url} alt={match?.first_name + " profile"} />
           </div>
+          <h3>{match?.first_name}</h3>
           <h3>{match?.first_name}</h3>
         </div>
       ))}
