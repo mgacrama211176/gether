@@ -115,7 +115,7 @@ const OnBoarding = () => {
     } else {
       setMatchStatus("Password match!");
     }
-
+    console.log(newUser);
     setFormData(newUser);
   };
 

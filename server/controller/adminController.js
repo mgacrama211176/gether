@@ -105,8 +105,4 @@ export const matchedRouter = async (request, response, next) => {
   } finally {
     await client.close();
   }
-
-  //retrieve the data of the user
-  //find the matched users on the array
-  //display all the matched users
 };
