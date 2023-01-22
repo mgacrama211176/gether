@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -101,17 +101,11 @@ export const UpdateModal = ({ user }) => {
   const [matchStatus, setMatchStatus] = useState("");
 
   const updateButton = async () => {
-    console.log(user.user_id);
     const id = user.user_id;
-
-    console.log(updateUser);
-
-    console.log("user info updated!");
     const updateData = await axios.put(
       `http://localhost:8000/admin/updateUser/${id}`,
       updateUser
     );
-    console.log(updateData);
     setOpen(false);
   };
 
