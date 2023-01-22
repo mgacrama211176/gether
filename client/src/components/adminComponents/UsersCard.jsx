@@ -18,7 +18,7 @@ export default function ImgMediaCard(user) {
         height="150"
         width="100%"
         image={variableCall.url}
-        sx={{ objectFit: "scale-down" }}
+        sx={{ objectFit: "scale-down", paddingTop: "10px" }}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

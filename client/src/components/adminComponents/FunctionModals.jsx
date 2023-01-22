@@ -103,10 +103,16 @@ export const UpdateModal = ({ user }) => {
   const updateButton = async () => {
     console.log(user.user_id);
     const id = user.user_id;
+
     console.log(updateUser);
 
-    // const updateData = await axios.put(``);
-    // console.log(updateData.status);
+    console.log("user info updated!");
+    const updateData = await axios.put(
+      `http://localhost:8000/admin/updateUser/${id}`,
+      updateUser
+    );
+    console.log(updateData);
+    setOpen(false);
   };
 
   return (
