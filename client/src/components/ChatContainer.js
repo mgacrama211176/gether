@@ -3,12 +3,12 @@ import MatchesDisplay from "./MatchesDisplay";
 import ChatDisplay from "./ChatDisplay";
 import { useState } from "react";
 
-const ChatContainer = ({ user }) => {
+const ChatContainer = ({ user, setUpdate, update }) => {
   const [clickedUser, setClickedUser] = useState(null);
 
   return (
     <div className="chat-container">
-      <ChatHeader user={user} />
+      <ChatHeader user={user} update={update} setUpdate={setUpdate} />
 
       <div>
         <button className="option" onClick={() => setClickedUser(null)}>
