@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   FormControl,
   FormControlLabel,
@@ -23,7 +23,7 @@ export default function App({
     const newUser = { ...updateUser };
     newUser[e.target.name] = e.target.value;
 
-    if (newUser.cpassword != newUser.password) {
+    if (newUser.cpassword !== newUser.password) {
       setMatchStatus("Password does not match!");
     } else {
       setMatchStatus("Password match!");

@@ -308,27 +308,4 @@ app.post("/message", async (req, res) => {
   }
 });
 
-{
-  /* 
-// Get all the gaming genre users in the Database
-app.get('/gaming-genre-users', async (req, res) => {
-    const client = new MongoClient(uri)
-    const gender = req.query.gender
-
-    try {
-        await client.connect()
-        const database = client.db('GetherPairingDB')
-        const users = database.collection('users')
-        const query = {gender_identity: {$eq: gender}}
-        const foundUsers = await users.find(query).toArray()
-        res.json(foundUsers)
-
-    } finally {
-        await client.close()
-    }
-})
-
-*/
-}
-
 app.listen(PORT, () => console.log("server running on PORT " + PORT));

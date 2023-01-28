@@ -1,5 +1,5 @@
+import React, { useEffect, useState } from "react";
 import TinderCard from "react-tinder-card";
-import { useEffect, useState } from "react";
 import ChatContainer from "../components/ChatContainer";
 import { useCookies } from "react-cookie";
 import UpdateUser from "../components/UpdateUser";
@@ -90,7 +90,6 @@ const Dashboard = () => {
           <div className="swipe-container">
             {update === false ? (
               <>
-                {" "}
                 <div className="card-container">
                   {filteredGenderedUsers?.map((genderedUser) => (
                     <TinderCard
