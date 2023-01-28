@@ -133,7 +133,6 @@ const UpdateUser = ({ user }) => {
                     id="gender_identity"
                     name="gender_identity"
                     defaultValue={user.gender_identity}
-                    // value={user.gender_identity}
                     onChange={(e) => onChangeHandle(e)}
                     row
                   >
@@ -149,7 +148,6 @@ const UpdateUser = ({ user }) => {
                     />
                   </RadioGroup>
 
-                  {/* SPACE CREATED */}
                   <FormLabel id="demo-controlled-radio-buttons-group">
                     Im interested In
                   </FormLabel>
@@ -172,8 +170,6 @@ const UpdateUser = ({ user }) => {
                       label="Female"
                     />
                   </RadioGroup>
-
-                  {/* SPACE CREATED */}
 
                   <TextField
                     id="about"

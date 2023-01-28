@@ -109,7 +109,6 @@ export const UpdateModal = ({ user }) => {
       `http://localhost:8000/admin/updateUser/${id}`,
       updateUser
     );
-    console.log(updateData.status);
     setOpen(false);
   };
 

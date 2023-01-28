@@ -13,8 +13,6 @@ const ChatHeader = ({ user, setUpdate, update }) => {
     nav("/");
   };
 
-  console.log(update);
-
   return (
     <div className="chat-container-header">
       <div className="profile">
