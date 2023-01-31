@@ -104,6 +104,10 @@ app.post("/admin/signup", async (request, response, next) => {
       matches: request.body.matches,
       show_gender: request.body.show_gender,
       url: request.body.url,
+      validated: false,
+      access: request.body.access,
+      resetPasswordToken: "",
+      resetPasswordExpire: "",
     };
     const insertedUser = await users.insertOne(data);
     const token = jwt.sign(insertedUser, sanitizedEmail, {

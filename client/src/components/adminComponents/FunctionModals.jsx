@@ -87,6 +87,8 @@ export const UpdateModal = ({ user }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  // console.log(user);
+
   const [updateUser, setUpdateUser] = useState({
     first_name: user.first_name,
     birthDate: user.birthDate,
@@ -96,19 +98,27 @@ export const UpdateModal = ({ user }) => {
     password: user.password,
     cpassword: user.cpassword,
     url: user.url,
+
+    //new added Data's
+    validated: user.validated,
+    access: user.access,
+    resetPasswordToken: user.resetPasswordToken,
+    resetPasswordExpire: user.resetPasswordExpire,
   });
 
-  const [matchStatus, setMatchStatus] = useState("");
+  const [matchStatus, setMatchStatus] = useState(
+    "Please Input password to update"
+  );
 
   const updateButton = async () => {
     const id = user.user_id;
-
     console.log("user info updated!");
 
     const updateData = await axios.put(
       `http://localhost:8000/admin/updateUser/${id}`,
       updateUser
     );
+    console.log(updateData.data.value);
     setOpen(false);
   };
 

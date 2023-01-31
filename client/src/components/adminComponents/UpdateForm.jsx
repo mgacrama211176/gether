@@ -74,20 +74,20 @@ export default function App({
               row
               aria-labelledby="demo-row-radio-buttons-group-label"
               name="gender_identity"
-              value={updateUser.gender_identity}
+              defaultValue={updateUser.gender_identity}
               onChange={(e) => onChangeHandler(e)}
             >
-              <FormControlLabel value="Man" control={<Radio />} label="Man" />
+              <FormControlLabel value="Male" control={<Radio />} label="Male" />
               <FormControlLabel
-                value="Woman"
+                value="Female"
                 control={<Radio />}
-                label="Woman "
+                label="Female"
               />
 
               <FormControlLabel
-                value="Other"
+                value="Others"
                 control={<Radio />}
-                label="Other"
+                label="Others"
               />
             </RadioGroup>
           </FormControl>
@@ -100,14 +100,15 @@ export default function App({
               row
               aria-labelledby="demo-row-radio-buttons-group-label"
               name="gender_interest"
+              defaultValue={updateUser.gender_interest}
               onChange={(e) => onChangeHandler(e)}
             >
+              <FormControlLabel value="Male" control={<Radio />} label="Male" />
               <FormControlLabel
-                value="female"
+                value="Female"
                 control={<Radio />}
                 label="Female"
               />
-              <FormControlLabel value="male" control={<Radio />} label="Male" />
               <FormControlLabel
                 value="Everyone"
                 control={<Radio />}
@@ -141,6 +142,18 @@ export default function App({
           />
 
           {updateUser.password === "" ? "" : <>{matchStatus}</>}
+
+          <FormLabel>User Access:</FormLabel>
+          <RadioGroup
+            row
+            required
+            onChange={(e) => onChangeHandler(e)}
+            defaultValue={user.access}
+            name="access"
+          >
+            <FormControlLabel value="user" control={<Radio />} label="User" />
+            <FormControlLabel value="admin" control={<Radio />} label="Admin" />
+          </RadioGroup>
         </Box>
         <FormControl>
           <TextField
@@ -153,12 +166,31 @@ export default function App({
           <img src={updateUser.url} alt="profile pic preview" width={"200px"} />
         </FormControl>
       </Box>
-      <Button variant="contained" size="small" onClick={updateButton}>
-        Confirm
-      </Button>
-      <Button onClick={handleClose} variant="contained" size="small">
-        Cancel
-      </Button>
+
+      <Box sx={{ display: "Flex", justifyContent: "center", gap: 5 }}>
+        {matchStatus !== "Password match!" ? (
+          <>
+            <Button
+              variant="contained"
+              size="small"
+              onClick={updateButton}
+              disabled
+            >
+              Confirm
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button variant="contained" size="small" onClick={updateButton}>
+              Confirm
+            </Button>
+          </>
+        )}
+
+        <Button onClick={handleClose} variant="contained" size="small">
+          Cancel
+        </Button>
+      </Box>
     </Box>
   );
 }

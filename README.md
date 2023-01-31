@@ -62,3 +62,9 @@ cat: Sandbox
 DBAtlas Cred:
 manny.aguas54@gmail.com
 GetherDB1!
+
+admin2@admin.com
+1234
+
+admin@admin.com
+1234

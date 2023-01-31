@@ -69,8 +69,19 @@ export const updateController = async (request, response, next) => {
       { user_id: id },
       {
         $set: {
-          ...request.body,
           hashed_password: hashedPassword,
+          about: request.body.about,
+          birthDate: request.body.birthDate,
+          first_name: request.body.first_name,
+          gender_identity: request.body.gender_identity,
+          gender_interest: request.body.gender_interest,
+          matches: request.body.matches,
+          show_gender: request.body.show_gender,
+          url: request.body.url,
+          validated: request.body.validated,
+          access: request.body.access,
+          resetPasswordToken: "",
+          resetPasswordExpire: "",
         },
       },
       { new: true }
