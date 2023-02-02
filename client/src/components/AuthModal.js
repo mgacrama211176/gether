@@ -12,7 +12,7 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
 
   let navigate = useNavigate();
 
-  console.log(email, password, confirmPassword);
+  // console.log(email, password, confirmPassword);
 
   const handleClick = () => {
     setShowModal(false);
@@ -38,7 +38,11 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
 
         const success = response.status === 201;
 
-        if (success && email === "admin@admin.com") {
+        console.log(response.data.user);
+
+        const data = response.data.user.access;
+
+        if (success && data === "admin") {
           navigate("/admin");
         } else {
           if (success && isSignUp) {
@@ -48,7 +52,7 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
           }
         }
 
-        window.location.reload();
+        // window.location.reload();
       } catch (err) {
         setError(`Please Check email or Password!`);
       }

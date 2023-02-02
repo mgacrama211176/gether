@@ -59,6 +59,10 @@ app.post("/signup", async (req, res) => {
       user_id: generatedUserId,
       email: sanitizedEmail,
       hashed_password: hashedPassword,
+      validated: false,
+      access: "user",
+      resetPasswordToken: "",
+      resetPasswordExpire: "",
     };
 
     const insertedUser = await users.insertOne(data);
@@ -143,7 +147,7 @@ app.post("/login", async (req, res) => {
       const token = jwt.sign(user, email, {
         expiresIn: 60 * 24,
       });
-      res.status(201).json({ token, userId: user.user_id });
+      res.status(201).json({ token, userId: user.user_id, user });
     } else {
       res.status(401).json("Invalid Credentials");
     }

@@ -19,6 +19,10 @@ const OnBoarding = () => {
     url: "",
     about: "",
     matches: [],
+    validated: false,
+    access: "user",
+    resetPasswordToken: "",
+    resetPasswordExpire: "",
   });
 
   const genreOptions = [
