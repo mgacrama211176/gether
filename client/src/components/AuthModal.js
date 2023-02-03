@@ -12,8 +12,6 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
 
   let navigate = useNavigate();
 
-  // console.log(email, password, confirmPassword);
-
   const handleClick = () => {
     setShowModal(false);
   };
@@ -38,20 +36,14 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
 
         const data = response.data.user;
 
-        console.log(data);
-
-        console.log(response.status);
-        console.log(isSignUp);
-
         // at this point the account has already been created since it has passed the initial required AuthModal
 
         if (data.access === "admin") {
           navigate("/admin");
         } else if (data.validated === false || isSignUp === true) {
-          setError("Account has been Created. Please check email to validate.");
-          // navigate("/dashboard");
+          // setError("Account has been Created. Please check email to validate.");
+          navigate("/dashboard");
         } else {
-          console.log(false);
         }
 
         // if (success && isSignUp) {
@@ -61,9 +53,8 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
         //   // navigate("/dashboard");
         // }
 
-        // window.location.reload();
+        window.location.reload();
       } catch (err) {
-        console.log(err);
         setError(`Please Check email or Password!`);
       }
     } catch (error) {

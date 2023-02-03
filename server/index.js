@@ -89,12 +89,11 @@ app.post("/signup", async (req, res) => {
           },
         }
       );
-      res.status(200).json(user);
 
       const transporter = nodemailer.createTransport({
         host: "smtp.mail.gmail.com",
         port: 465,
-        // service: "gmail",
+        service: "gmail",
         secure: false,
         auth: {
           user: "maruronu@gmail.com",
@@ -104,11 +103,9 @@ app.post("/signup", async (req, res) => {
         logger: true,
       });
 
-      // console.log(transporter);
-
       const mailOptions = {
-        from: "mrln_gcrm@yahoo.com",
-        to: req.params.email,
+        from: "maruronu@gmail.com",
+        to: req.body.email,
         subject: "FilAnime Password Reset link",
         text:
           `You are receiving this email because you (or someone else) have requested to reset the password on your account. \n \n` +
@@ -176,7 +173,6 @@ app.post("/admin/signup", async (request, response, next) => {
     const token = jwt.sign(insertedUser, sanitizedEmail, {
       expiresIn: 60 * 24,
     });
-    // response.status(200).json(hashedPassword);
     response.status(201).json({ token, userId: generatedUserId });
   } catch (err) {
     next(err);
