@@ -12,6 +12,7 @@ const Dashboard = () => {
   const [cookies] = useCookies(["user"]);
 
   const userId = cookies.UserId;
+  console.log(user);
 
   const getUser = async () => {
     try {

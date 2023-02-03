@@ -36,24 +36,34 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
         setCookie("AuthToken", response.data.token, { path: "/" });
         setCookie("UserId", response.data.userId, { path: "/" });
 
-        const success = response.status === 201;
+        const data = response.data.user;
 
-        console.log(response.data.user);
+        console.log(data);
 
-        const data = response.data.user.access;
+        console.log(response.status);
+        console.log(isSignUp);
 
-        if (success && data === "admin") {
+        // at this point the account has already been created since it has passed the initial required AuthModal
+
+        if (data.access === "admin") {
           navigate("/admin");
+        } else if (data.validated === false || isSignUp === true) {
+          setError("Account has been Created. Please check email to validate.");
+          // navigate("/dashboard");
         } else {
-          if (success && isSignUp) {
-            navigate("/onboarding");
-          } else {
-            navigate("/dashboard");
-          }
+          console.log(false);
         }
+
+        // if (success && isSignUp) {
+        //   navigate("/dashboard");
+        //   // navigate("/onboarding");
+        // } else {
+        //   // navigate("/dashboard");
+        // }
 
         // window.location.reload();
       } catch (err) {
+        console.log(err);
         setError(`Please Check email or Password!`);
       }
     } catch (error) {

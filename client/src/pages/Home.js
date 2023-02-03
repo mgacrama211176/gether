@@ -10,6 +10,7 @@ const Home = () => {
   const authToken = cookies.AuthToken;
 
   const handleClick = () => {
+    
     if (authToken) {
       removeCookie("UserId", cookies.UserId);
       removeCookie("AuthToken", cookies.AuthToken);
@@ -31,6 +32,7 @@ const Home = () => {
       />
       <div className="home">
         <h1 className="primary-title">Find Your Gaming Buddy!®</h1>
+
         <button className="primary-button" onClick={handleClick}>
           {authToken ? "Signout" : "Create Account"}
         </button>

@@ -5,6 +5,8 @@ import jwt from "jsonwebtoken";
 import cors from "cors";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import nodemailer from "nodemailer";
+import crypto from "crypto";
 
 //Routers
 import adminRouter from "./router/adminRouter.js";
@@ -55,7 +57,7 @@ app.post("/signup", async (req, res) => {
 
     const sanitizedEmail = email.toLowerCase();
 
-    const data = {
+    const user = {
       user_id: generatedUserId,
       email: sanitizedEmail,
       hashed_password: hashedPassword,
@@ -63,14 +65,71 @@ app.post("/signup", async (req, res) => {
       access: "user",
       resetPasswordToken: "",
       resetPasswordExpire: "",
+      matches: [],
+      birthDate: new Date().toLocaleDateString(),
+      url: "https://media.istockphoto.com/id/1332100919/vector/man-icon-black-icon-person-symbol.jpg?s=612x612&w=0&k=20&c=AVVJkvxQQCuBhawHrUhDRTCeNQ3Jgt0K1tXjJsFy1eg=",
     };
 
-    const insertedUser = await users.insertOne(data);
+    const insertedUser = await users.insertOne(user);
 
     const token = jwt.sign(insertedUser, sanitizedEmail, {
       expiresIn: 60 * 24,
     });
-    res.status(201).json({ token, userId: generatedUserId });
+
+    // At this point the account has been created so below this is the code for the sending of confirmation email to the regitered user.
+
+    try {
+      const token = crypto.randomBytes(20).toString("hex");
+      const user = await users.findOneAndUpdate(
+        { email: req.params.email },
+        {
+          $set: {
+            resetPasswordToken: token,
+            resetPasswordExpires: Date.now() + 3600000,
+          },
+        }
+      );
+      res.status(200).json(user);
+
+      const transporter = nodemailer.createTransport({
+        host: "smtp.mail.gmail.com",
+        port: 465,
+        // service: "gmail",
+        secure: false,
+        auth: {
+          user: "maruronu@gmail.com",
+          pass: "ytthtkarkyysbrml",
+        },
+        debug: false,
+        logger: true,
+      });
+
+      // console.log(transporter);
+
+      const mailOptions = {
+        from: "mrln_gcrm@yahoo.com",
+        to: req.params.email,
+        subject: "FilAnime Password Reset link",
+        text:
+          `You are receiving this email because you (or someone else) have requested to reset the password on your account. \n \n` +
+          `Please click on the link below or paste this into your browser to complete the process within one hour of receiving it: \n \n` +
+          `http://127.0.0.1:5173/receivedEmail/${token} \n \n` +
+          `If you did not request this, please ignore this email and your password will remain unchanged. \n`,
+      };
+
+      transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+          console.error("there was an error: ", err);
+        } else {
+          console.log("here is the response: ", info);
+          res.status(200).json("Email sent!");
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    res.status(201).json({ token, userId: generatedUserId, user });
   } catch (err) {
     res.status(500).json(err);
   } finally {
