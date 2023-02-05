@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import UsersCard from "./UsersCard";
+import ViewUserTable from "./ViewUserTable";
 import axios from "axios";
 import { Container } from "@mui/material";
 
@@ -31,9 +32,7 @@ const ViewUser = () => {
   return (
     <>
       <Container sx={ContainerStyle}>
-        {users.map((user) => (
-          <UsersCard user={user} key={user._id} />
-        ))}
+        <ViewUserTable users={users} />
       </Container>
     </>
   );

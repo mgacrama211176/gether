@@ -8,7 +8,7 @@ import axios from "axios";
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [genderedUsers, setGenderedUsers] = useState(null);
-  const [lastDirection, setLastDirection] = useState();
+  const [lastDirection, setLastDirection] = useState("");
   const [cookies] = useCookies(["user"]);
 
   const userId = cookies.UserId;
@@ -80,7 +80,7 @@ const Dashboard = () => {
 
   // Update info useState and functions Below
   const [update, setUpdate] = useState(false);
-
+  console.log(filteredGenderedUsers);
   return (
     <>
       {user && (
@@ -107,9 +107,7 @@ const Dashboard = () => {
                         className="card"
                       >
                         <h3>{genderedUser.first_name}</h3>
-                        <h3>
-                          Gaming Categories: {genderedUser.gaming_interest}
-                        </h3>
+                        <h3>Gaming Categories: {genderedUser.genre}</h3>
                       </div>
                     </TinderCard>
                   ))}

@@ -7,8 +7,12 @@ import {
   Radio,
   RadioGroup,
   FormControlLabel,
+  CircularProgress,
 } from "@mui/material";
 import axios from "axios";
+import MatchedUsers from "./MatchedUsers";
+import MatchedTable from "./MatchedTable";
+import ComboBox from "./ComboBox";
 
 const boxContainer = {
   backgroundColor: "white",
@@ -24,6 +28,8 @@ const UpdateUser = ({ user }) => {
   //   setting new state for onClick Update option
   const [updating, setUpdating] = useState(false);
   const [passValidator, setPassValidator] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [selected, setSelected] = useState("");
 
   // new state for the new user Information
   const [newInfo, setNewInfo] = useState({
@@ -34,8 +40,9 @@ const UpdateUser = ({ user }) => {
     gender_interest: `${user.gender_interest}`,
     about: `${user.about}`,
     url: `${user.url}`,
-    password: `${user.password}`,
-    cpassword: `${user.cpassword}`,
+    password: ``,
+    cpassword: ``,
+    genre: ``,
   });
 
   const onChangeHandle = (e) => {
@@ -57,12 +64,15 @@ const UpdateUser = ({ user }) => {
 
   //When Submitted
   const OnClickUpdate = async () => {
+    setLoading(true);
     const updateData = await axios.put(
       `http://localhost:8000/admin/updateUser/${user.user_id}`,
       newInfo
     );
     setUpdating(false);
-    console.log(updateData);
+    setLoading(false);
+    console.log(updateData.data.value);
+    window.location.reload();
   };
 
   return (
@@ -78,16 +88,40 @@ const UpdateUser = ({ user }) => {
         <Box>
           {updating === false ? (
             <>
-              <Box sx={image}>
-                <img src={user.url} alt="userImage" width="100%" />
-              </Box>
-              <Box>
-                <p>First Name: {user.first_name}</p>
-                <p>Email: {user.email}</p>
-                <p>Date of Birth:{user?.birthDate} </p>
-                <p>Gender: {user.gender_identity}</p>
-                <p>Im interested In: {user.gender_interest}</p>
-                <p>About: {user.about}</p>
+              <Box
+                sx={{ display: "flex", justifyContent: "space-evenly", gap: 2 }}
+              >
+                <Box>
+                  <Box sx={image}>
+                    <img src={user.url} alt="userImage" width="100%" />
+                  </Box>
+                  <Box>
+                    <p>First Name: {user.first_name}</p>
+                    <p>Email: {user.email}</p>
+                    <p>Date of Birth:{user?.birthDate} </p>
+                    <p>Gender: {user.gender_identity}</p>
+                    <p>Genre: {user.genre}</p>
+                    <p>Im interested In: {user.gender_interest}</p>
+                    <p>About: {user.about}</p>
+                  </Box>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  <h2>User Matches</h2>
+                  <ComboBox />
+
+                  <MatchedTable
+                    user={user}
+                    selected={selected}
+                    setSelected={setSelected}
+                  />
+                  {/* <MatchedUsers user={user} /> */}
+                </Box>
               </Box>
             </>
           ) : (
@@ -149,6 +183,38 @@ const UpdateUser = ({ user }) => {
                   </RadioGroup>
 
                   <FormLabel id="demo-controlled-radio-buttons-group">
+                    Gaming Genre
+                  </FormLabel>
+                  <RadioGroup
+                    id="genre"
+                    name="genre"
+                    defaultValue={user.genre}
+                    onChange={(e) => onChangeHandle(e)}
+                    row
+                  >
+                    <FormControlLabel
+                      value="rts"
+                      control={<Radio />}
+                      label="RTS"
+                    />
+                    <FormControlLabel
+                      value="moba"
+                      control={<Radio />}
+                      label="MOBA"
+                    />
+                    <FormControlLabel
+                      value="fps"
+                      control={<Radio />}
+                      label="FPS"
+                    />
+                    <FormControlLabel
+                      value="rpg"
+                      control={<Radio />}
+                      label="RPG"
+                    />
+                  </RadioGroup>
+
+                  <FormLabel id="demo-controlled-radio-buttons-group">
                     Im interested In
                   </FormLabel>
                   <RadioGroup
@@ -184,7 +250,7 @@ const UpdateUser = ({ user }) => {
                   <TextField
                     id="password"
                     name="password"
-                    label="New Password"
+                    label="Confrim Password / New Password"
                     defaultValue={user.about}
                     variant="standard"
                     type="password"
@@ -212,6 +278,16 @@ const UpdateUser = ({ user }) => {
                   </Box>
                 </Box>
               </Container>
+              {loading ? (
+                <>
+                  <Box>
+                    <CircularProgress />
+                    <p>Saving game files....</p>
+                  </Box>
+                </>
+              ) : (
+                <></>
+              )}
             </>
           )}
         </Box>

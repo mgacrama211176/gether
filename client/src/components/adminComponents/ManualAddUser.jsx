@@ -51,7 +51,7 @@ const imgStyle = {
   width: "100%",
 };
 
-const OnBoarding = () => {
+const OnBoarding = ({ setType }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -113,7 +113,7 @@ const OnBoarding = () => {
         resetPasswordExpire: "",
       });
       console.log(response);
-      navigate("/admin");
+      setType("view");
     } catch (err) {
       console.log(err);
     }

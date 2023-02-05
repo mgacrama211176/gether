@@ -28,7 +28,7 @@ const Admin = () => {
       <Box sx={{ margin: "0 auto", padding: "50px" }}>
         {type === "Add User" ? (
           <>
-            <ManualAddUser />
+            <ManualAddUser setType={setType} />
           </>
         ) : (
           <>

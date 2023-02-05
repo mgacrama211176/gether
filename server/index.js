@@ -10,6 +10,8 @@ import crypto from "crypto";
 
 //Routers
 import adminRouter from "./router/adminRouter.js";
+import validation from "./router/validation.js";
+import usersRouter from "./router/usersRouter.js";
 
 dotenv.config();
 
@@ -34,12 +36,13 @@ app.get("/", (req, res) => {
 });
 
 app.use("/admin", adminRouter);
+app.use("/validation", validation);
+app.use("/usersInfo", usersRouter);
 
 // Sign up to the Database
 app.post("/signup", async (req, res) => {
   const client = new MongoClient(uri);
   const { email, password } = req.body;
-  console.log(password);
 
   const generatedUserId = uuidv4();
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -56,6 +59,7 @@ app.post("/signup", async (req, res) => {
     }
 
     const sanitizedEmail = email.toLowerCase();
+    const validatorToken = crypto.randomBytes(20).toString("hex");
 
     const user = {
       user_id: generatedUserId,
@@ -63,8 +67,8 @@ app.post("/signup", async (req, res) => {
       hashed_password: hashedPassword,
       validated: false,
       access: "user",
-      resetPasswordToken: "",
-      resetPasswordExpire: "",
+      resetPasswordToken: validatorToken,
+      resetPasswordExpire: Date.now() + 3600000,
       matches: [],
       birthDate: new Date().toLocaleDateString(),
       url: "https://media.istockphoto.com/id/1332100919/vector/man-icon-black-icon-person-symbol.jpg?s=612x612&w=0&k=20&c=AVVJkvxQQCuBhawHrUhDRTCeNQ3Jgt0K1tXjJsFy1eg=",
@@ -78,55 +82,40 @@ app.post("/signup", async (req, res) => {
 
     // At this point the account has been created so below this is the code for the sending of confirmation email to the regitered user.
 
-    try {
-      const token = crypto.randomBytes(20).toString("hex");
-      const user = await users.findOneAndUpdate(
-        { email: req.params.email },
-        {
-          $set: {
-            resetPasswordToken: token,
-            resetPasswordExpires: Date.now() + 3600000,
-          },
-        }
-      );
+    const transporter = nodemailer.createTransport({
+      host: "smtp.mail.gmail.com",
+      port: 465,
+      service: "gmail",
+      secure: false,
+      auth: {
+        user: "getherapplication@gmail.com",
+        pass: "vzqxpazdqiemmkjz",
+      },
+      debug: false,
+      logger: true,
+    });
 
-      const transporter = nodemailer.createTransport({
-        host: "smtp.mail.gmail.com",
-        port: 465,
-        service: "gmail",
-        secure: false,
-        auth: {
-          user: "maruronu@gmail.com",
-          pass: "ytthtkarkyysbrml",
-        },
-        debug: false,
-        logger: true,
-      });
+    console.log(transporter);
 
-      const mailOptions = {
-        from: "maruronu@gmail.com",
-        to: req.body.email,
-        subject: "FilAnime Password Reset link",
-        text:
-          `You are receiving this email because you (or someone else) have requested to reset the password on your account. \n \n` +
-          `Please click on the link below or paste this into your browser to complete the process within one hour of receiving it: \n \n` +
-          `http://127.0.0.1:5173/receivedEmail/${token} \n \n` +
-          `If you did not request this, please ignore this email and your password will remain unchanged. \n`,
-      };
+    const mailOptions = {
+      from: "maruronu@gmail.com",
+      to: req.body.email,
+      subject: "Gether Verification",
+      text:
+        `Thank you for signing up for our services. To complete the registration process and start using our platform, we need to verify your email address.. \n \n` +
+        `Please click the link below to confirm your email address: \n \n` +
+        `http://localhost:3000/verified/${validatorToken} \n \n` +
+        `If you did not sign up for our services, please ignore this email. \n`,
+    };
 
-      transporter.sendMail(mailOptions, (err, info) => {
-        if (err) {
-          console.error("there was an error: ", err);
-        } else {
-          console.log("here is the response: ", info);
-          res.status(200).json("Email sent!");
-        }
-      });
-    } catch (err) {
-      console.log(err);
-    }
-
-    res.status(201).json({ token, userId: generatedUserId, user });
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.error("there was an error: ", err);
+      } else {
+        console.log("here is the response: ", info);
+      }
+    });
+    res.status(200).json(user);
   } catch (err) {
     res.status(500).json(err);
   } finally {
@@ -151,6 +140,7 @@ app.post("/admin/signup", async (request, response, next) => {
     if (existingUser) {
       return response.status(409).send("User already exists. Please login");
     }
+
     const sanitizedEmail = email.toLowerCase();
     const data = {
       user_id: generatedUserId,
@@ -185,6 +175,7 @@ app.post("/admin/signup", async (request, response, next) => {
 app.post("/login", async (req, res) => {
   const client = new MongoClient(uri);
   const { email, password } = req.body;
+  const validatorToken = crypto.randomBytes(20).toString("hex");
 
   try {
     await client.connect();
@@ -202,11 +193,65 @@ app.post("/login", async (req, res) => {
       const token = jwt.sign(user, email, {
         expiresIn: 60 * 24,
       });
-      res.status(201).json({ token, userId: user.user_id, user });
+      console.log(req.body);
+
+      if (user.validated === false) {
+        console.log(req.body.email);
+        //Update the user Token to get the validated account
+        const updatedUser = await users.findOneAndUpdate(
+          { email: req.body.email },
+          {
+            $set: {
+              resetPasswordToken: validatorToken,
+              resetPasswordExpire: Date.now() + 3600000,
+            },
+          },
+          { new: true }
+        );
+
+        // At this point the account has been created so below this is the code for the sending of confirmation email to the regitered user.
+
+        const transporter = nodemailer.createTransport({
+          host: "smtp.mail.gmail.com",
+          port: 465,
+          service: "gmail",
+          secure: false,
+          auth: {
+            user: "getherapplication@gmail.com",
+            pass: "vzqxpazdqiemmkjz",
+          },
+          debug: false,
+          logger: true,
+        });
+
+        const mailOptions = {
+          from: "gether@gmail.com",
+          to: req.body.email,
+          subject: "Gether Verification",
+          text:
+            `Thank you for signing up for our services. To complete the registration process and start using our platform, we need to verify your email address.. \n \n` +
+            `Please click the link below to confirm your email address: \n \n` +
+            `http://localhost:3000/verified/${validatorToken} \n \n` +
+            `If you did not sign up for our services, please ignore this email. \n`,
+        };
+
+        transporter.sendMail(mailOptions, (err, info) => {
+          if (err) {
+            console.error("there was an error: ", err);
+          } else {
+            console.log("here is the response: ", info);
+          }
+        });
+
+        res.status(201).json({ token, userId: user.user_id, user });
+      } else {
+        res.status(201).json({ token, userId: user.user_id, user });
+      }
     } else {
       res.status(401).json("Invalid Credentials");
     }
   } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   } finally {
     await client.close();
@@ -217,7 +262,7 @@ app.post("/login", async (req, res) => {
 app.get("/user", async (req, res) => {
   const client = new MongoClient(uri);
   const userId = req.query.userId;
-
+  console.log(userId);
   try {
     await client.connect();
     const database = client.db("GetherPairingDB");

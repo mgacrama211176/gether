@@ -10,7 +10,6 @@ const Home = () => {
   const authToken = cookies.AuthToken;
 
   const handleClick = () => {
-    
     if (authToken) {
       removeCookie("UserId", cookies.UserId);
       removeCookie("AuthToken", cookies.AuthToken);
