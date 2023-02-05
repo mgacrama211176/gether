@@ -31,6 +31,11 @@ const UpdateUser = ({ user }) => {
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState("");
 
+  //For the genre category
+  const options = ["rts", "fps", "rpg", "moba"];
+  const [value, setValue] = useState(user.genre);
+  const [inputValue, setInputValue] = useState("");
+
   // new state for the new user Information
   const [newInfo, setNewInfo] = useState({
     first_name: `${user.first_name}`,
@@ -113,12 +118,20 @@ const UpdateUser = ({ user }) => {
                   }}
                 >
                   <h2>User Matches</h2>
-                  <ComboBox />
+                  <ComboBox
+                    //Category
+                    value={value}
+                    setValue={setValue}
+                    inputValue={inputValue}
+                    setInputValue={setInputValue}
+                    options={options}
+                  />
 
                   <MatchedTable
                     user={user}
                     selected={selected}
                     setSelected={setSelected}
+                    value={value}
                   />
                   {/* <MatchedUsers user={user} /> */}
                 </Box>

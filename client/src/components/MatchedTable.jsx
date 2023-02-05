@@ -12,58 +12,28 @@ function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
 
-const rows = [
-  createData("RTS", 159),
-  createData("FPS", 159),
-  createData("MOBA", 159),
-  createData("RPG", 159),
-];
-
-export default function BasicTable({ user, selected, setSelected }) {
+export default function BasicTable({ user, selected, setSelected, value }) {
+  console.log(value);
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 500 }} aria-label="simple table">
+      <Table sx={{ minWidth: 400 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Genre</TableCell>
             <TableCell align="right">Players</TableCell>
           </TableRow>
         </TableHead>
+
         <TableBody>
           <TableRow>
-            <TableCell>RTS</TableCell>
+            <TableCell>{value}</TableCell>
             <TableCell>
               <MatchedUsers
                 user={user}
                 selected={selected}
                 setSelected={setSelected}
+                value={value}
               />
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>RPG</TableCell>
-            <TableCell>
-              <MatchedUsers
-                user={user}
-                selected={selected}
-                setSelected={setSelected}
-              />
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>MOBA</TableCell>
-            <TableCell>
-              <MatchedUsers
-                user={user}
-                selected={selected}
-                setSelected={setSelected}
-              />
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>FPS</TableCell>
-            <TableCell>
-              <MatchedUsers user={user} />
             </TableCell>
           </TableRow>
         </TableBody>

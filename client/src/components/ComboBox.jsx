@@ -1,23 +1,32 @@
-import * as React from "react";
+import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
-export default function ComboBox() {
+export default function ControllableStates({
+  value,
+  setValue,
+  inputValue,
+  setInputValue,
+  options,
+}) {
+  console.log(inputValue);
   return (
-    <Autocomplete
-      disablePortal
-      id="combo-box-demo"
-      options={top100Films}
-      sx={{ width: 130 }}
-      renderInput={(params) => <TextField {...params} label="Genre" />}
-    />
+    <div>
+      <br />
+      <Autocomplete
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+        inputValue={inputValue}
+        onInputChange={(event, newInputValue) => {
+          setInputValue(newInputValue);
+        }}
+        id="controllable-states-demo"
+        options={options}
+        sx={{ width: 300 }}
+        renderInput={(params) => <TextField {...params} label="Sort" />}
+      />
+    </div>
   );
 }
-
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [
-  { label: "RTS" },
-  { label: "FPS" },
-  { label: "MOBA" },
-  { label: "RPG" },
-];
