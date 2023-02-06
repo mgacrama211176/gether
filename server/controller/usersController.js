@@ -61,3 +61,34 @@ export const fetchUsersGenre = async (request, response, next) => {
     await client.close();
   }
 };
+
+export const fetchUsersUsingIdProfile = async (request, response, next) => {
+  // connect to DB 1st
+  const client = new MongoClient(uri);
+
+  try {
+    await client.connect();
+    const database = client.db("GetherPairingDB");
+    const users = database.collection("users");
+    // const genre = request.params.genre;
+    const userId = request.params.userId;
+
+    console.log(userId);
+
+    //fetch All data from the Database to an Array of objects.
+
+    const data = await users.find({ user_id: userId }).toArray();
+
+    // const result = data.filter(
+    //   (user) =>
+    //     user.matches && user.matches.some((match) => match.user_id === userId)
+    // );
+
+    response.status(200).json(data);
+  } catch (err) {
+    next(err);
+  } finally {
+    //Close DB after all functions are done.
+    await client.close();
+  }
+};

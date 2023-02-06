@@ -24,12 +24,31 @@ const boxContainer = {
 
 const image = { width: "150px", margin: "0 auto" };
 
-const UpdateUser = ({ user }) => {
+const UpdateUser = ({ user, userId }) => {
   //   setting new state for onClick Update option
   const [updating, setUpdating] = useState(false);
   const [passValidator, setPassValidator] = useState("");
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState("");
+  const [viewUser, setViewUser] = useState("");
+
+  console.log(selected);
+
+  const OnclickSelectedPairing = async () => {
+    const fetched = await axios.get(
+      `http://localhost:8000/usersInfo/usersById/${selected}`
+    );
+
+    const fetchedContainer = fetched.data;
+
+    fetchedContainer.map((user) => {
+      setViewUser(user);
+    });
+  };
+
+  useEffect(() => {
+    OnclickSelectedPairing();
+  }, [selected]);
 
   //For the genre category
   const options = ["rts", "fps", "rpg", "moba"];
@@ -80,6 +99,19 @@ const UpdateUser = ({ user }) => {
     window.location.reload();
   };
 
+  // remove Match
+  const removeMatches = async () => {
+    try {
+      const process = await axios.get("http://localhost:8000/unmatch", {
+        userId,
+        selected,
+      });
+      console.log(process);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Container sx={boxContainer}>
       <h1>User Profile</h1>
@@ -97,18 +129,38 @@ const UpdateUser = ({ user }) => {
                 sx={{ display: "flex", justifyContent: "space-evenly", gap: 2 }}
               >
                 <Box>
-                  <Box sx={image}>
-                    <img src={user.url} alt="userImage" width="100%" />
-                  </Box>
-                  <Box>
-                    <p>First Name: {user.first_name}</p>
-                    <p>Email: {user.email}</p>
-                    <p>Date of Birth:{user?.birthDate} </p>
-                    <p>Gender: {user.gender_identity}</p>
-                    <p>Genre: {user.genre}</p>
-                    <p>Im interested In: {user.gender_interest}</p>
-                    <p>About: {user.about}</p>
-                  </Box>
+                  {viewUser === "" ? (
+                    <>
+                      <Box sx={image}>
+                        <img src={user.url} alt="userImage" width="100%" />
+                      </Box>
+                      <Box>
+                        <p>First Name: {user.first_name}</p>
+                        <p>Email: {user.email}</p>
+                        <p>Date of Birth:{user?.birthDate} </p>
+                        <p>Gender: {user.gender_identity}</p>
+                        <p>Genre: {user.genre}</p>
+                        <p>Im interested In: {user.gender_interest}</p>
+                        <p>About: {user.about}</p>
+                      </Box>
+                    </>
+                  ) : (
+                    <>
+                      {/* Others Profile */}
+                      <Box sx={image}>
+                        <img src={viewUser.url} alt="userImage" width="100%" />
+                      </Box>
+                      <Box>
+                        <p>First Name: {viewUser.first_name}</p>
+                        <p>Email: {viewUser.email}</p>
+                        <p>Date of Birth:{viewUser?.birthDate} </p>
+                        <p>Gender: {viewUser.gender_identity}</p>
+                        <p>Genre: {viewUser.genre}</p>
+                        <p>Im interested In: {viewUser.gender_interest}</p>
+                        <p>About: {viewUser.about}</p>
+                      </Box>
+                    </>
+                  )}
                 </Box>
                 <Box
                   sx={{
@@ -132,6 +184,7 @@ const UpdateUser = ({ user }) => {
                     selected={selected}
                     setSelected={setSelected}
                     value={value}
+                    viewUser={viewUser}
                   />
                   {/* <MatchedUsers user={user} /> */}
                 </Box>
@@ -310,9 +363,19 @@ const UpdateUser = ({ user }) => {
 
       {updating === false ? (
         <>
-          <Button variant="outlined" onClick={() => setUpdating(true)}>
-            Update My Information
-          </Button>
+          {viewUser ? (
+            <>
+              <Button variant="outlined" onClick={removeMatches}>
+                Unpair
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="outlined" onClick={() => setUpdating(true)}>
+                Update My Information
+              </Button>
+            </>
+          )}
         </>
       ) : (
         <>

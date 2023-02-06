@@ -8,12 +8,13 @@ import TableRow from "@mui/material/TableRow";
 import { Paper, Box } from "@mui/material";
 import MatchedUsers from "./MatchedUsers";
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-export default function BasicTable({ user, selected, setSelected, value }) {
-  console.log(value);
+export default function BasicTable({
+  user,
+  selected,
+  setSelected,
+  value,
+  viewUser,
+}) {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 400 }} aria-label="simple table">
@@ -33,6 +34,7 @@ export default function BasicTable({ user, selected, setSelected, value }) {
                 selected={selected}
                 setSelected={setSelected}
                 value={value}
+                viewUser={viewUser}
               />
             </TableCell>
           </TableRow>

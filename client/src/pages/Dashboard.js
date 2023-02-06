@@ -47,6 +47,7 @@ const Dashboard = () => {
     }
   }, [user]);
 
+  // Add match
   const updateMatches = async (matchedUserId) => {
     try {
       await axios.put("http://localhost:8000/addmatch", {
@@ -80,7 +81,6 @@ const Dashboard = () => {
 
   // Update info useState and functions Below
   const [update, setUpdate] = useState(false);
-  console.log(filteredGenderedUsers);
   return (
     <>
       {user && (
@@ -118,7 +118,7 @@ const Dashboard = () => {
               </>
             ) : (
               <>
-                <UpdateUser user={user} />
+                <UpdateUser user={user} userId={userId} />
               </>
             )}
           </div>

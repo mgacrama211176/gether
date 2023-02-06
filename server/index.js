@@ -297,6 +297,30 @@ app.put("/addmatch", async (req, res) => {
   }
 });
 
+// Update User with a match
+app.get("/unmatch", async (req, res) => {
+  const client = new MongoClient(uri);
+  // const { userId, selected } = req.body;
+  const userId = req.body.userId;
+
+  console.log(req.body.userId);
+
+  // try {
+  //   await client.connect();
+  //   const database = client.db("GetherPairingDB");
+  //   const users = database.collection("users");
+
+  //   const query = { user_id: userId };
+  //   const updateDocument = {
+  //     $pull: { matches: { user_id: selected } },
+  //   };
+  //   const user = await users.updateOne(query, updateDocument);
+  //   res.send(user);
+  // } finally {
+  //   await client.close();
+  // }
+});
+
 // Get all Users by userIds in the Database
 app.get("/users", async (req, res) => {
   const client = new MongoClient(uri);

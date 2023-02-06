@@ -9,7 +9,6 @@ export default function ControllableStates({
   setInputValue,
   options,
 }) {
-  console.log(inputValue);
   return (
     <div>
       <br />
