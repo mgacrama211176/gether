@@ -31,6 +31,10 @@ const UpdateUser = ({ user, userId }) => {
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState("");
   const [viewUser, setViewUser] = useState("");
+  const [pair, setPair] = useState({
+    userId: userId,
+    selected: selected,
+  });
 
   console.log(selected);
 
@@ -102,14 +106,14 @@ const UpdateUser = ({ user, userId }) => {
   // remove Match
   const removeMatches = async () => {
     try {
-      const process = await axios.get("http://localhost:8000/unmatch", {
-        userId,
-        selected,
-      });
+      const process = await axios.get(
+        `http://localhost:8000/unmatch/${userId}/${selected}`
+      );
       console.log(process);
     } catch (err) {
       console.log(err);
     }
+    window.location.reload();
   };
 
   return (

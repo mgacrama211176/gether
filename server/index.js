@@ -298,27 +298,33 @@ app.put("/addmatch", async (req, res) => {
 });
 
 // Update User with a match
-app.get("/unmatch", async (req, res) => {
+// const { userId, selected } = req.body;
+app.get("/unmatch/:userId/:selected", async (req, res) => {
   const client = new MongoClient(uri);
-  // const { userId, selected } = req.body;
-  const userId = req.body.userId;
 
-  console.log(req.body.userId);
+  const { userId, selected } = req.params;
 
-  // try {
-  //   await client.connect();
-  //   const database = client.db("GetherPairingDB");
-  //   const users = database.collection("users");
+  try {
+    await client.connect();
+    const database = client.db("GetherPairingDB");
+    const users = database.collection("users");
 
-  //   const query = { user_id: userId };
-  //   const updateDocument = {
-  //     $pull: { matches: { user_id: selected } },
-  //   };
-  //   const user = await users.updateOne(query, updateDocument);
-  //   res.send(user);
-  // } finally {
-  //   await client.close();
-  // }
+    const query = { user_id: userId };
+    const updateDocument = {
+      $pull: { matches: { user_id: selected } },
+    };
+    const user = await users.updateOne(query, updateDocument);
+
+    const pair = { user_id: selected };
+    const pairedUserRemove = {
+      $pull: { matches: { user_id: userId } },
+    };
+    const paired = await users.updateOne(pair, pairedUserRemove);
+
+    res.status(200).json("users unpaired");
+  } finally {
+    await client.close();
+  }
 });
 
 // Get all Users by userIds in the Database
