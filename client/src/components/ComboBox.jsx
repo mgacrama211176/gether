@@ -9,6 +9,7 @@ export default function ControllableStates({
   setInputValue,
   options,
 }) {
+  console.log(`Genre is :${value}`);
   return (
     <div>
       <br />

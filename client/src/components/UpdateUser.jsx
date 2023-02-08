@@ -31,27 +31,25 @@ const UpdateUser = ({ user, userId }) => {
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState("");
   const [viewUser, setViewUser] = useState("");
-  const [pair, setPair] = useState({
-    userId: userId,
-    selected: selected,
-  });
-
-  console.log(selected);
 
   const OnclickSelectedPairing = async () => {
     const fetched = await axios.get(
       `http://localhost:8000/usersInfo/usersById/${selected}`
     );
+    console.log(selected);
 
-    const fetchedContainer = fetched.data;
-
-    fetchedContainer.map((user) => {
+    fetched.data.map((user) => {
       setViewUser(user);
     });
   };
 
+  console.log(viewUser);
+
   useEffect(() => {
-    OnclickSelectedPairing();
+    if (selected !== "") {
+      OnclickSelectedPairing();
+    } else {
+    }
   }, [selected]);
 
   //For the genre category

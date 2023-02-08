@@ -5,26 +5,38 @@ import axios from "axios";
 const MatchedUsers = ({ user, selected, setSelected, value, viewUser }) => {
   const [usersData, setUsersData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [matchContainer, setMatchContainer] = useState(user.user_id);
+  const [matchContainer, setMatchContainer] = useState("");
   // const matches = user.user_id;
 
-  useEffect(() => {
-    if (viewUser.user_id === "" || viewUser.user_id === undefined) {
-      setMatchContainer(user.user_id);
+  const genreViewer = () => {
+    if (selected !== "") {
+      console.log(`selected is not empty`);
+      setMatchContainer(viewUser);
+      console.log(viewUser);
     } else {
-      setMatchContainer(viewUser.user_id);
+      setMatchContainer(user);
     }
+  };
+  useEffect(() => {
+    genreViewer();
+    retrieveMatchesByUserId();
   }, [selected]);
 
-  console.log(matchContainer);
+  // console.log(`Matches of the selected users data: ${usersData}`);
+  // console.log(matchContainer);
 
-  // console.log(viewUser.user_id);
+  // console.log(`Selected user: ${selected}`);
+  // console.log(`This is the current User: ${user.first_name}`);
+  console.log(`This is the View User: ${matchContainer.first_name}`);
+  // console.log(
+  //   `This is the MatchedContainerValue: ${matchContainer.first_name}`
+  // );
 
   const retrieveMatchesByUserId = async () => {
     setLoading(true);
     const users = await axios.get(
       // `http://localhost:8000/usersInfo/allUsers/${matches}`
-      `http://localhost:8000/usersInfo/genre/${value}/${matchContainer}`
+      `http://localhost:8000/usersInfo/genre/${value}/${matchContainer.user_id}`
     );
     setUsersData(users.data);
     setLoading(false);
