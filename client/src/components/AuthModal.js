@@ -31,7 +31,7 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
           email,
           password,
         });
-        console.log(register);
+
         navigate("/verify");
       } else {
         setError("Password not match");
@@ -47,80 +47,22 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
       // if it's an admin
       if (login.data.user.access === "admin") {
         navigate("/admin");
+        setCookie("AuthToken", login.data.token, { path: "/" });
+        setCookie("UserId", login.data.userId, { path: "/" });
       }
       // if this is a regular user and not an admin
       else {
-        console.log(login.data);
         if (login.data.user.validated === false) {
           navigate("/verify");
         } else {
           navigate("/dashboard");
+          setCookie("AuthToken", login.data.token, { path: "/" });
+          setCookie("UserId", login.data.userId, { path: "/" });
         }
       }
       setLoading(false);
-      setCookie("AuthToken", login.data.token, { path: "/" });
-      setCookie("UserId", login.data.userId, { path: "/" });
     }
 
-    // try {
-    //   if (isSignUp && password !== confirmPassword) {
-    //     setError("Passwords need to match!");
-    //     return;
-    //   }
-
-    //   if (isSignUp === true) {
-    //     const response = await axios.post(`http://localhost:8000/signup`, {
-    //       email,
-    //       password,
-    //     });
-    //     setDataHolder(response);
-    //   } else {
-    //     const response = await axios.post(`http://localhost:8000/login`, {
-    //       email,
-    //       password,
-    //     });
-    //     setDataHolder(response);
-    //   }
-
-    //   console.log(dataHolder.data);
-    //   setCookie("AuthToken", dataHolder.data.token, { path: "/" });
-    //   setCookie("UserId", dataHolder.data.userId, { path: "/" });
-
-    //   if (dataHolder.data.user.access === "admin") {
-    //     // navigate("/admin");
-    //     console.log("logged to admin");
-    //   }
-
-    //   if (dataHolder.data.validated === false) {
-    //     console.log(false);
-    //   }
-    // try {
-    //   const response = await axios.post(
-    //     `http://localhost:8000/${isSignUp ? "signup" : "login"}`,
-    //     { email, password }
-    //   );
-
-    //   const registration = response.data;
-    //   console.log(registration.validated);
-    //   // at this point the account has already been created since it has passed the initial required AuthModal
-    //   if (response.data.user.access === "admin") {
-    //     navigate("/admin");
-    //   } else {
-    //     if (registration.validated === false) {
-    //       console.log(`data is validated`);
-    //       // navigate("/verify");
-    //     } else if (response.data.validated === true) {
-    //       // navigate("/dashboard");
-    //     } else {
-    //       // navigate("/verify");
-    //     }
-    //   }
-
-    //   // window.location.reload();
-    //   setLoading(false);
-    // } catch (err) {
-    //   setError(`Please Check email or Password!`);
-    // }
     window.location.reload();
   };
 

@@ -10,7 +10,6 @@ import {
   CircularProgress,
 } from "@mui/material";
 import axios from "axios";
-import MatchedUsers from "./MatchedUsers";
 import MatchedTable from "./MatchedTable";
 import ComboBox from "./ComboBox";
 
@@ -32,18 +31,20 @@ const UpdateUser = ({ user, userId }) => {
   const [selected, setSelected] = useState("");
   const [viewUser, setViewUser] = useState("");
 
+  //For the genre category
+  const options = ["rts", "fps", "rpg", "moba"];
+  const [value, setValue] = useState(user.genre);
+  const [inputValue, setInputValue] = useState("");
+
   const OnclickSelectedPairing = async () => {
     const fetched = await axios.get(
       `http://localhost:8000/usersInfo/usersById/${selected}`
     );
-    console.log(selected);
 
     fetched.data.map((user) => {
       setViewUser(user);
     });
   };
-
-  console.log(viewUser);
 
   useEffect(() => {
     if (selected !== "") {
@@ -51,11 +52,6 @@ const UpdateUser = ({ user, userId }) => {
     } else {
     }
   }, [selected]);
-
-  //For the genre category
-  const options = ["rts", "fps", "rpg", "moba"];
-  const [value, setValue] = useState(user.genre);
-  const [inputValue, setInputValue] = useState("");
 
   // new state for the new user Information
   const [newInfo, setNewInfo] = useState({
@@ -75,7 +71,6 @@ const UpdateUser = ({ user, userId }) => {
     const newData = { ...newInfo };
     newData[e.target.name] = e.target.value;
     setNewInfo(newData);
-    console.log(newData);
   };
 
   useEffect(() => {
@@ -97,7 +92,6 @@ const UpdateUser = ({ user, userId }) => {
     );
     setUpdating(false);
     setLoading(false);
-    console.log(updateData.data.value);
     window.location.reload();
   };
 
@@ -107,7 +101,6 @@ const UpdateUser = ({ user, userId }) => {
       const process = await axios.get(
         `http://localhost:8000/unmatch/${userId}/${selected}`
       );
-      console.log(process);
     } catch (err) {
       console.log(err);
     }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Avatar, Stack, AvatarGroup, CircularProgress } from "@mui/material";
+import { Avatar, AvatarGroup, CircularProgress } from "@mui/material";
 import axios from "axios";
 
 const MatchedUsers = ({ user, selected, setSelected, value, viewUser }) => {
@@ -8,35 +8,22 @@ const MatchedUsers = ({ user, selected, setSelected, value, viewUser }) => {
   const [matchContainer, setMatchContainer] = useState("");
   // const matches = user.user_id;
 
-  const genreViewer = () => {
-    if (selected !== "") {
-      console.log(`selected is not empty`);
-      setMatchContainer(viewUser);
-      console.log(viewUser);
-    } else {
-      setMatchContainer(user);
-    }
-  };
   useEffect(() => {
+    const genreViewer = () => {
+      if (selected === "") {
+        setMatchContainer(user.user_id);
+      } else {
+        setMatchContainer(selected);
+      }
+    };
     genreViewer();
     retrieveMatchesByUserId();
-  }, [selected]);
-
-  // console.log(`Matches of the selected users data: ${usersData}`);
-  // console.log(matchContainer);
-
-  // console.log(`Selected user: ${selected}`);
-  // console.log(`This is the current User: ${user.first_name}`);
-  console.log(`This is the View User: ${matchContainer.first_name}`);
-  // console.log(
-  //   `This is the MatchedContainerValue: ${matchContainer.first_name}`
-  // );
+  }, [selected, value]);
 
   const retrieveMatchesByUserId = async () => {
     setLoading(true);
     const users = await axios.get(
-      // `http://localhost:8000/usersInfo/allUsers/${matches}`
-      `http://localhost:8000/usersInfo/genre/${value}/${matchContainer.user_id}`
+      `http://localhost:8000/usersInfo/genre/${value}/${matchContainer}`
     );
     setUsersData(users.data);
     setLoading(false);
@@ -59,7 +46,9 @@ const MatchedUsers = ({ user, selected, setSelected, value, viewUser }) => {
               key={user._id}
               alt={user.first_name}
               src={user.url}
-              onClick={() => setSelected(user.user_id)}
+              onClick={() => {
+                setSelected(user.user_id);
+              }}
               sx={{ cursor: "pointer" }}
             />
           ))}

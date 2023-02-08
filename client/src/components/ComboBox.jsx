@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
@@ -9,7 +9,6 @@ export default function ControllableStates({
   setInputValue,
   options,
 }) {
-  console.log(`Genre is :${value}`);
   return (
     <div>
       <br />

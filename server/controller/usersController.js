@@ -14,7 +14,6 @@ export const fetchAllUsers = async (request, response, next) => {
     const users = database.collection("users");
     const userId = request.params.userId;
     const genre = "RPG";
-    // const userId = "6b9d03af-e605-45c3-9eab-e5658e52515f";
 
     //fetch All data from the Database to an Array of objects.
 
@@ -70,19 +69,11 @@ export const fetchUsersUsingIdProfile = async (request, response, next) => {
     await client.connect();
     const database = client.db("GetherPairingDB");
     const users = database.collection("users");
-    // const genre = request.params.genre;
     const userId = request.params.userId;
-
-    console.log(userId);
 
     //fetch All data from the Database to an Array of objects.
 
     const data = await users.find({ user_id: userId }).toArray();
-
-    // const result = data.filter(
-    //   (user) =>
-    //     user.matches && user.matches.some((match) => match.user_id === userId)
-    // );
 
     response.status(200).json(data);
   } catch (err) {

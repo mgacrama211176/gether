@@ -5,7 +5,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { Paper, Box } from "@mui/material";
+import { Paper } from "@mui/material";
 import MatchedUsers from "./MatchedUsers";
 
 export default function BasicTable({
@@ -15,7 +15,6 @@ export default function BasicTable({
   value,
   viewUser,
 }) {
-  console.log(viewUser);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 400 }} aria-label="simple table">
