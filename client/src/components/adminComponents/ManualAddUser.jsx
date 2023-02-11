@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { userAdded } from "../Toasts";
 
 //MUI
 import { styled } from "@mui/material/styles";
@@ -75,6 +76,7 @@ const OnBoarding = ({ setType }) => {
   const navigate = useNavigate();
 
   const SubmitHandler = async (e) => {
+    userAdded();
     e.preventDefault();
     try {
       const response = await axios.post("http://localhost:8000/admin/signup", {
@@ -136,6 +138,7 @@ const OnBoarding = ({ setType }) => {
 
   return (
     <>
+      {/* Same as */}
       <div>
         <ThemeProvider theme={theme}>
           <FormContainer sx={{ padding: 3 }}>

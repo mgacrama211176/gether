@@ -25,6 +25,7 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
     setLoading(true);
 
     console.log(isSignUp);
+
     if (isSignUp === true) {
       if (password === confirmPassword) {
         const register = await axios.post(`http://localhost:8000/signup`, {
@@ -39,31 +40,36 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
     } else {
       // if isSignup is false or user trying to login.
 
-      const login = await axios.post(`http://localhost:8000/login`, {
-        email,
-        password,
-      });
+      try {
+        const login = await axios.post(`http://localhost:8000/login`, {
+          email,
+          password,
+        });
 
-      // if it's an admin
-      if (login.data.user.access === "admin") {
-        navigate("/admin");
-        setCookie("AuthToken", login.data.token, { path: "/" });
-        setCookie("UserId", login.data.userId, { path: "/" });
-      }
-      // if this is a regular user and not an admin
-      else {
-        if (login.data.user.validated === false) {
-          navigate("/verify");
-        } else {
-          navigate("/dashboard");
+        // if it's an admin
+        if (login.data.user.access === "admin") {
+          navigate("/admin");
           setCookie("AuthToken", login.data.token, { path: "/" });
           setCookie("UserId", login.data.userId, { path: "/" });
         }
+        // if this is a regular user and not an admin
+        else {
+          if (login.data.user.validated === false) {
+            navigate("/verify");
+          } else {
+            navigate("/dashboard");
+            setCookie("AuthToken", login.data.token, { path: "/" });
+            setCookie("UserId", login.data.userId, { path: "/" });
+          }
+        }
+        setLoading(false);
+        window.location.reload();
+      } catch (err) {
+        console.log(err);
+        setError("Incorrect Password or Email");
+        setLoading(false);
       }
-      setLoading(false);
     }
-
-    window.location.reload();
   };
 
   return (

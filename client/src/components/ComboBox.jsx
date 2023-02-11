@@ -8,7 +8,9 @@ export default function ControllableStates({
   inputValue,
   setInputValue,
   options,
+  user,
 }) {
+  console.log(user.genre);
   return (
     <div>
       <br />
@@ -24,7 +26,9 @@ export default function ControllableStates({
         id="controllable-states-demo"
         options={options}
         sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="Sort" />}
+        renderInput={(params) => (
+          <TextField {...params} label="Sort" defaultValue={user.genre} />
+        )}
       />
     </div>
   );

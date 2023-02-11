@@ -23,7 +23,7 @@ const boxContainer = {
 
 const image = { width: "150px", margin: "0 auto" };
 
-const UpdateUser = ({ user, userId }) => {
+const UpdateUser = ({ user, userId, setUpdate }) => {
   //   setting new state for onClick Update option
   const [updating, setUpdating] = useState(false);
   const [passValidator, setPassValidator] = useState("");
@@ -90,6 +90,7 @@ const UpdateUser = ({ user, userId }) => {
       `http://localhost:8000/admin/updateUser/${user.user_id}`,
       newInfo
     );
+
     setUpdating(false);
     setLoading(false);
     window.location.reload();
@@ -107,6 +108,10 @@ const UpdateUser = ({ user, userId }) => {
     window.location.reload();
   };
 
+  const closeProfileModal = () => {
+    setUpdate(false);
+  };
+
   return (
     <Container sx={boxContainer}>
       <h1>User Profile</h1>
@@ -115,8 +120,20 @@ const UpdateUser = ({ user, userId }) => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          position: "relative",
         }}
       >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "-75px",
+            right: "5px",
+            cursor: "pointer",
+          }}
+          onClick={closeProfileModal}
+        >
+          <p>X</p>
+        </Box>
         <Box>
           {updating === false ? (
             <>
@@ -172,6 +189,7 @@ const UpdateUser = ({ user, userId }) => {
                     inputValue={inputValue}
                     setInputValue={setInputValue}
                     options={options}
+                    user={user}
                   />
 
                   <MatchedTable

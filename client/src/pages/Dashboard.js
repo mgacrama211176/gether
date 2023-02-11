@@ -8,7 +8,9 @@ import axios from "axios";
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [genderedUsers, setGenderedUsers] = useState(null);
-  const [lastDirection, setLastDirection] = useState("");
+  const [lastDirection, setLastDirection] = useState(
+    "Swipe left to dislike, right for like"
+  );
   const [cookies] = useCookies(["user"]);
 
   const userId = cookies.UserId;
@@ -112,13 +114,18 @@ const Dashboard = () => {
                     </TinderCard>
                   ))}
                   <div className="swipe-info">
-                    {lastDirection ? <p>You swiped {lastDirection} </p> : <p />}
+                    {lastDirection ===
+                    "Swipe left to dislike, right for like" ? (
+                      <p>{lastDirection} </p>
+                    ) : (
+                      <p>You swiped {lastDirection} </p>
+                    )}
                   </div>
                 </div>
               </>
             ) : (
               <>
-                <UpdateUser user={user} userId={userId} />
+                <UpdateUser user={user} userId={userId} setUpdate={setUpdate} />
               </>
             )}
           </div>

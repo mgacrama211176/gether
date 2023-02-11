@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Container from "@mui/material/Container";
 import BGImage from "../images/ps-bg.png";
+import { ToastContainer } from "react-toastify";
 
 //MUI
 import { Box } from "@mui/material";
@@ -14,29 +15,33 @@ const Admin = () => {
   const [type, setType] = useState("Add User");
 
   return (
-    <Container
-      maxWidth="xxl"
-      sx={{
-        backgroundImage: `url(${BGImage})`,
-        backgroundSize: "contain",
-        backgroundPosition: "center",
-        minHeight: "100vh",
-      }}
-    >
-      <Navbar type={type} setType={setType} />
+    <>
+      {/* Same as */}
+      <ToastContainer />
+      <Container
+        maxWidth="xxl"
+        sx={{
+          backgroundImage: `url(${BGImage})`,
+          backgroundSize: "contain",
+          backgroundPosition: "center",
+          minHeight: "100vh",
+        }}
+      >
+        <Navbar type={type} setType={setType} />
 
-      <Box sx={{ margin: "0 auto", padding: "50px" }}>
-        {type === "Add User" ? (
-          <>
-            <ManualAddUser setType={setType} />
-          </>
-        ) : (
-          <>
-            <ViewUser />
-          </>
-        )}
-      </Box>
-    </Container>
+        <Box sx={{ margin: "0 auto", padding: "50px" }}>
+          {type === "Add User" ? (
+            <>
+              <ManualAddUser setType={setType} />
+            </>
+          ) : (
+            <>
+              <ViewUser />
+            </>
+          )}
+        </Box>
+      </Container>
+    </>
   );
 };
 

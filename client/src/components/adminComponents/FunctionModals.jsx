@@ -6,6 +6,7 @@ import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
+import { deleteUser, userUpdated } from "../Toasts";
 
 import UpdateForm from "./UpdateForm";
 import RetrievedUserCard from "./RetrievedUserCard";
@@ -44,7 +45,7 @@ export const DeleteModal = ({ user }) => {
     const deleteData = await axios.delete(
       `http://localhost:8000/admin/deleteUser/${user.user_id}`
     );
-
+    deleteUser();
     console.log(deleteData.status);
   };
 
@@ -119,6 +120,7 @@ export const UpdateModal = ({ user }) => {
       updateUser
     );
     console.log(updateData.data.value);
+    userUpdated();
     setOpen(false);
   };
 
