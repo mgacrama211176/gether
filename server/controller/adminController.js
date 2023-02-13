@@ -52,9 +52,8 @@ export const updateController = async (request, response, next) => {
   //get data from the retrieved Json
   const id = request.params.UserID;
   const password = request.body.password;
-
   const hashedPassword = await bcrypt.hash(password, 10);
-  console.log(id);
+  console.log(password);
 
   //connect to DB 1st
   const client = new MongoClient(uri);
@@ -62,28 +61,52 @@ export const updateController = async (request, response, next) => {
     await client.connect();
     const database = client.db("GetherPairingDB");
     const users = database.collection("users");
-    console.log(id);
 
-    // search the Id 1st from the Db then delete the selected object.
-    const updateObject = await users.findOneAndUpdate(
-      { user_id: id },
-      {
-        $set: {
-          hashed_password: hashedPassword,
-          about: request.body.about,
-          birthDate: request.body.birthDate,
-          first_name: request.body.first_name,
-          gender_identity: request.body.gender_identity,
-          gender_interest: request.body.gender_interest,
-          show_gender: request.body.show_gender,
-          url: request.body.url,
-          genre: request.body.genre,
+    //if true password won't be updated else it will be updated on the system
+    if (password !== "") {
+      // search the Id 1st from the Db then delete the selected object.
+      const updateObject = await users.findOneAndUpdate(
+        { user_id: id },
+
+        {
+          $set: {
+            hashed_password: hashedPassword,
+            about: request.body.about,
+            birthDate: request.body.birthDate,
+            first_name: request.body.first_name,
+            gender_identity: request.body.gender_identity,
+            gender_interest: request.body.gender_interest,
+            show_gender: request.body.show_gender,
+            url: request.body.url,
+            genre: request.body.genre,
+            access: request.body.access,
+          },
         },
-      },
-      { new: true }
-    );
-    response.status(202).json(updateObject);
-    //response the Object after the deletion.
+        { new: true }
+      );
+      response.status(202).json(updateObject);
+    } else {
+      // search the Id 1st from the Db then delete the selected object.
+      const updateObject = await users.findOneAndUpdate(
+        { user_id: id },
+        {
+          $set: {
+            about: request.body.about,
+            birthDate: request.body.birthDate,
+            first_name: request.body.first_name,
+            gender_identity: request.body.gender_identity,
+            gender_interest: request.body.gender_interest,
+            show_gender: request.body.show_gender,
+            url: request.body.url,
+            genre: request.body.genre,
+            access: request.body.access,
+          },
+        },
+        { new: true }
+      );
+      console.log(updateObject);
+      response.status(202).json(updateObject);
+    }
   } catch (err) {
     next(err);
   } finally {

@@ -18,20 +18,29 @@ export default function App({
   setMatchStatus,
   updateUser,
   setUpdateUser,
+  admin,
 }) {
   const onChangeHandler = (e) => {
     const newUser = { ...updateUser };
     newUser[e.target.name] = e.target.value;
 
-    if (newUser.cpassword !== newUser.password) {
-      setMatchStatus("Password does not match!");
+    if (newUser.cpassword === "") {
+      setMatchStatus("");
     } else {
-      setMatchStatus("Password match!");
+      if (newUser.cpassword !== newUser.password) {
+        setMatchStatus("Password does not match!");
+      } else {
+        if (newUser.cpassword.length > 4) {
+          setMatchStatus("Password match!");
+        } else {
+          setMatchStatus("Password must be a minimum of 5 characters!");
+        }
+      }
     }
-
     console.log(newUser);
     setUpdateUser(newUser);
   };
+
   return (
     <Box>
       <Box sx={{ display: "flex", gap: 4 }}>
@@ -143,18 +152,33 @@ export default function App({
 
           {updateUser.password === "" ? "" : <>{matchStatus}</>}
 
+          {admin !== "Sadmin" ? (
+            ""
+          ) : (
+            <>
+              <RadioGroup
+                row
+                required
+                onChange={(e) => onChangeHandler(e)}
+                defaultValue={user.access}
+                name="access"
+              >
+                <FormControlLabel
+                  value="user"
+                  control={<Radio />}
+                  label="User"
+                />
+                <FormControlLabel
+                  value="admin"
+                  control={<Radio />}
+                  label="Admin"
+                />
+              </RadioGroup>
+            </>
+          )}
           <FormLabel>User Access:</FormLabel>
-          <RadioGroup
-            row
-            required
-            onChange={(e) => onChangeHandler(e)}
-            defaultValue={user.access}
-            name="access"
-          >
-            <FormControlLabel value="user" control={<Radio />} label="User" />
-            <FormControlLabel value="admin" control={<Radio />} label="Admin" />
-          </RadioGroup>
         </Box>
+
         <FormControl>
           <TextField
             type="url"
@@ -168,7 +192,8 @@ export default function App({
       </Box>
 
       <Box sx={{ display: "Flex", justifyContent: "center", gap: 5 }}>
-        {matchStatus !== "Password match!" ? (
+        {matchStatus === "Password does not match!" ||
+        matchStatus === "Password must be a minimum of 5 characters!" ? (
           <>
             <Button
               variant="contained"

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Container from "@mui/material/Container";
 import BGImage from "../images/ps-bg.png";
 import { ToastContainer } from "react-toastify";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 
 //MUI
 import { Box } from "@mui/material";
@@ -13,6 +15,25 @@ import ViewUser from "../components/adminComponents/ViewUser";
 
 const Admin = () => {
   const [type, setType] = useState("Add User");
+  const [cookies, setCookie, removeCookie] = useCookies(null);
+  const [admin, setAdmin] = useState(null);
+  const userId = cookies.UserId;
+
+  const getUser = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/user", {
+        params: { userId },
+      });
+
+      setAdmin(response.data.access);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <>
@@ -32,11 +53,11 @@ const Admin = () => {
         <Box sx={{ margin: "0 auto", padding: "50px" }}>
           {type === "Add User" ? (
             <>
-              <ManualAddUser setType={setType} />
+              <ManualAddUser setType={setType} admin={admin} />
             </>
           ) : (
             <>
-              <ViewUser />
+              <ViewUser admin={admin} />
             </>
           )}
         </Box>

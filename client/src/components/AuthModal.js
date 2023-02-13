@@ -47,7 +47,7 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
         });
 
         // if it's an admin
-        if (login.data.user.access === "admin") {
+        if (login.data.user.access === "admin" ||login.data.user.access === "Sadmin" ) {
           navigate("/admin");
           setCookie("AuthToken", login.data.token, { path: "/" });
           setCookie("UserId", login.data.userId, { path: "/" });

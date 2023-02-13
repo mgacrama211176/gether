@@ -1,88 +1,105 @@
 import React, { useEffect, useState } from "react";
-import TinderCard from "react-tinder-card";
 import ChatContainer from "../components/ChatContainer";
 import { useCookies } from "react-cookie";
 import UpdateUser from "../components/UpdateUser";
 import axios from "axios";
+import UserMatchTable from "../components/UserMatchTable";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [genderedUsers, setGenderedUsers] = useState(null);
-  const [lastDirection, setLastDirection] = useState(
-    "Swipe left to dislike, right for like"
-  );
+  // const [lastDirection, setLastDirection] = useState(
+  //   "Swipe left to dislike, right for like"
+  // );
   const [cookies] = useCookies(["user"]);
+  const [possibleMatch, setPossibleMatch] = useState([]);
+  // Update info useState and functions Below
+  const [update, setUpdate] = useState(false);
 
   const userId = cookies.UserId;
-
-  const getUser = async () => {
-    try {
-      const response = await axios.get("http://localhost:8000/user", {
-        params: { userId },
-      });
-
-      setUser(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getGenderedUsers = async () => {
-    try {
-      const response = await axios.get("http://localhost:8000/gendered-users", {
-        params: { gender: user?.gender_interest },
-      });
-      // console.log(response);
-      setGenderedUsers(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getUser();
-  }, []);
-
-  useEffect(() => {
-    if (user) {
-      getGenderedUsers();
-    }
-  }, [user]);
-
-  // Add match
-  const updateMatches = async (matchedUserId) => {
-    try {
-      await axios.put("http://localhost:8000/addmatch", {
-        userId,
-        matchedUserId,
-      });
-      getUser();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const swiped = (direction, swipedUserId) => {
-    if (direction === "right") {
-      updateMatches(swipedUserId);
-    }
-    setLastDirection(direction);
-  };
-
-  const outOfFrame = (name) => {
-    console.log(name + " left the screen!");
-  };
 
   const matchedUserIds = user?.matches
     .map(({ user_id }) => user_id)
     .concat(userId);
 
-  const filteredGenderedUsers = genderedUsers?.filter(
-    (genderedUser) => !matchedUserIds?.includes(genderedUser.user_id)
-  );
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/user", {
+          params: { userId },
+        });
+        // console.log(response.data);
+        setUser(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  // Update info useState and functions Below
-  const [update, setUpdate] = useState(false);
+    const getGenderedUsers = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/gendered-users",
+          {
+            params: { gender: user?.gender_interest },
+          }
+        );
+        // console.log(response.data);
+        setGenderedUsers(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const filteredGenderedUsers = () => {
+      const filtered = genderedUsers?.filter(
+        (genderedUser) => !matchedUserIds?.includes(genderedUser.user_id)
+      );
+      console.log(filtered);
+      setPossibleMatch(filtered);
+    };
+
+    getUser();
+    getGenderedUsers();
+    filteredGenderedUsers();
+  }, []);
+
+  // useEffect(() => {
+
+  //   filteredGenderedUsers();
+  //   getUser();
+  // }, []);
+
+  // useEffect(() => {
+  //   if (user) {
+  //     getGenderedUsers();
+  //     console.log(user);
+  //   }
+  // }, [user]);
+
+  // Add match
+  // const updateMatches = async (matchedUserId) => {
+  //   try {
+  //     await axios.put("http://localhost:8000/addmatch", {
+  //       userId,
+  //       matchedUserId,
+  //     });
+  //     getUser();
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  // const swiped = (direction, swipedUserId) => {
+  //   if (direction === "right") {
+  //     updateMatches(swipedUserId);
+  //   }
+  //   setLastDirection(direction);
+  // };
+
+  // const outOfFrame = (name) => {
+  //   console.log(name + " left the screen!");
+  // };
+
   return (
     <>
       {user && (
@@ -92,7 +109,8 @@ const Dashboard = () => {
           <div className="swipe-container">
             {update === false ? (
               <>
-                <div className="card-container">
+                <UserMatchTable possibleMatch={possibleMatch} />
+                {/* <div className="card-container">
                   {filteredGenderedUsers?.map((genderedUser) => (
                     <TinderCard
                       className="swipe"
@@ -121,7 +139,7 @@ const Dashboard = () => {
                       <p>You swiped {lastDirection} </p>
                     )}
                   </div>
-                </div>
+                </div> */}
               </>
             ) : (
               <>

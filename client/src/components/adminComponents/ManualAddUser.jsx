@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useForm } from "react-hook-form";
 import { userAdded } from "../Toasts";
 
 //MUI
@@ -52,7 +51,7 @@ const imgStyle = {
   width: "100%",
 };
 
-const OnBoarding = ({ setType }) => {
+const OnBoarding = ({ setType, admin }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -142,7 +141,7 @@ const OnBoarding = ({ setType }) => {
       <div>
         <ThemeProvider theme={theme}>
           <FormContainer sx={{ padding: 3 }}>
-            <h2>Overide Add User / Admin</h2>
+            <h2>Add User / Admin</h2>
             <Box
               sx={{
                 display: "flex",
@@ -189,25 +188,31 @@ const OnBoarding = ({ setType }) => {
                   {matchStatus}
                 </FormControl>
 
-                <FormLabel>User Access:</FormLabel>
-                <RadioGroup
-                  row
-                  required
-                  onChange={(e) => onChangeHandler(e)}
-                  defaultValue={formData.access}
-                  name="access"
-                >
-                  <FormControlLabel
-                    value="user"
-                    control={<Radio />}
-                    label="User"
-                  />
-                  <FormControlLabel
-                    value="admin"
-                    control={<Radio />}
-                    label="Admin"
-                  />
-                </RadioGroup>
+                {admin !== "Sadmin" ? (
+                  ""
+                ) : (
+                  <>
+                    <FormLabel>User Access:</FormLabel>
+                    <RadioGroup
+                      row
+                      required
+                      onChange={(e) => onChangeHandler(e)}
+                      defaultValue={formData.access}
+                      name="access"
+                    >
+                      <FormControlLabel
+                        value="user"
+                        control={<Radio />}
+                        label="User"
+                      />
+                      <FormControlLabel
+                        value="admin"
+                        control={<Radio />}
+                        label="Admin"
+                      />
+                    </RadioGroup>
+                  </>
+                )}
               </Box>
               <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                 <TextField

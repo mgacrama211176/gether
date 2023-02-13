@@ -15,7 +15,7 @@ const ContainerStyle = {
   width: "100%",
 };
 
-const ViewUser = () => {
+const ViewUser = ({ admin }) => {
   const [users, setUsers] = useState([]);
 
   const fetchUsers = async () => {
@@ -32,7 +32,7 @@ const ViewUser = () => {
   return (
     <>
       <Container sx={ContainerStyle}>
-        <ViewUserTable users={users} />
+        <ViewUserTable users={users} admin={admin} />
       </Container>
     </>
   );

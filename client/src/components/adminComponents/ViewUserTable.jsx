@@ -12,8 +12,7 @@ function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
 
-export default function BasicTable({ users }) {
-  //   console.log(users);
+export default function BasicTable({ users, admin }) {
   return (
     <TableContainer component={Paper}>
       <Table
@@ -36,16 +35,22 @@ export default function BasicTable({ users }) {
               key={user._id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
-                {user.first_name}
-              </TableCell>
-              <TableCell align="right">{user.email}</TableCell>
-              <TableCell align="right">
-                <DeleteModal user={user} />
-              </TableCell>
-              <TableCell align="right">
-                <UpdateModal user={user} />
-              </TableCell>
+              {user.access === "Sadmin" ? (
+                ""
+              ) : (
+                <>
+                  <TableCell component="th" scope="row">
+                    {user.first_name}
+                  </TableCell>
+                  <TableCell align="right">{user.email}</TableCell>
+                  <TableCell align="right">
+                    <DeleteModal user={user} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <UpdateModal user={user} admin={admin} />
+                  </TableCell>
+                </>
+              )}
             </TableRow>
           ))}
         </TableBody>

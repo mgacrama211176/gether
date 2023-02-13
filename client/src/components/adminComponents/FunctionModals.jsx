@@ -83,12 +83,10 @@ export const DeleteModal = ({ user }) => {
   );
 };
 
-export const UpdateModal = ({ user }) => {
+export const UpdateModal = ({ user, admin }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  // console.log(user);
 
   const [updateUser, setUpdateUser] = useState({
     first_name: user.first_name,
@@ -96,20 +94,19 @@ export const UpdateModal = ({ user }) => {
     gender_identity: user.gender_identity,
     gender_interest: user.gender_interest,
     about: user.about,
-    password: user.password,
-    cpassword: user.cpassword,
+    password: "",
+    cpassword: "",
     url: user.url,
+    email: `${user.email}`,
 
     //new added Data's
     validated: user.validated,
-    access: user.access,
+    access: `${user.access}`,
     resetPasswordToken: user.resetPasswordToken,
     resetPasswordExpire: user.resetPasswordExpire,
   });
 
-  const [matchStatus, setMatchStatus] = useState(
-    "Please Input password to update"
-  );
+  const [matchStatus, setMatchStatus] = useState("");
 
   const updateButton = async () => {
     const id = user.user_id;
@@ -154,6 +151,7 @@ export const UpdateModal = ({ user }) => {
               setUpdateUser={setUpdateUser}
               matchStatus={matchStatus}
               setMatchStatus={setMatchStatus}
+              admin={admin}
             />
           </Box>
         </Fade>

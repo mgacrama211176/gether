@@ -64,20 +64,26 @@ const UpdateUser = ({ user, userId, setUpdate }) => {
     url: `${user.url}`,
     password: ``,
     cpassword: ``,
-    genre: ``,
+    genre: `${user.genre}`,
+    access:"user"
   });
 
   const onChangeHandle = (e) => {
     const newData = { ...newInfo };
     newData[e.target.name] = e.target.value;
     setNewInfo(newData);
+    console.log(newData);
   };
 
   useEffect(() => {
     if (newInfo.password === "" || newInfo.cpassword === "") {
       setPassValidator("");
     } else if (newInfo.password === newInfo.cpassword) {
-      setPassValidator("password matched");
+      if (newInfo.password.length > 4) {
+        setPassValidator("password matched");
+      } else {
+        setPassValidator("Password must be minimum of 5 characters");
+      }
     } else {
       setPassValidator("password does not matched");
     }
@@ -90,6 +96,7 @@ const UpdateUser = ({ user, userId, setUpdate }) => {
       `http://localhost:8000/admin/updateUser/${user.user_id}`,
       newInfo
     );
+    console.log(updateData);
 
     setUpdating(false);
     setLoading(false);
@@ -329,7 +336,7 @@ const UpdateUser = ({ user, userId, setUpdate }) => {
                   <TextField
                     id="password"
                     name="password"
-                    label="Confrim Password / New Password"
+                    label="New Password"
                     defaultValue={user.about}
                     variant="standard"
                     type="password"
@@ -403,7 +410,7 @@ const UpdateUser = ({ user, userId, setUpdate }) => {
             </Button>
 
             {passValidator === "password does not matched" ||
-            passValidator === "" ? (
+            passValidator === "Password must be minimum of 5 characters" ? (
               <>
                 <Button variant="outlined" onClick={OnClickUpdate} disabled>
                   Save
