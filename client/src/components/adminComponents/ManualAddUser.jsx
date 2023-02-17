@@ -52,6 +52,9 @@ const imgStyle = {
 };
 
 const OnBoarding = ({ setType, admin }) => {
+  const [validation, setValidation] = useState(false);
+  const [validationMess, setValidationMes] = useState("");
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -123,9 +126,28 @@ const OnBoarding = ({ setType, admin }) => {
   const onChangeHandler = (e) => {
     const newUser = { ...formData };
     newUser[e.target.name] = e.target.value;
+
+    if (
+      formData.email === "" ||
+      formData.password === "" ||
+      formData.cpassword === "" ||
+      formData.first_name === ""
+    ) {
+      setValidation(false);
+      setValidationMes("Required inputs must be filled");
+    } else {
+      setValidation(true);
+    }
+
     if (newUser.cpassword !== newUser.password) {
+      setValidation(false);
       setMatchStatus("Password does not match!");
       setFormData(newUser);
+
+      if (newUser.password.length < 5) {
+        setValidation(false);
+        setMatchStatus("Password must be more than 5 characters");
+      }
       return;
     } else {
       setMatchStatus("Password match!");
@@ -319,13 +341,28 @@ const OnBoarding = ({ setType, admin }) => {
                 </Box>
               </Box>
             </Box>
-            <Button
-              variant="contained"
-              onClick={SubmitHandler}
-              sx={{ marginTop: "15px" }}
-            >
-              Submit
-            </Button>
+            {validation ? (
+              <>
+                <Button
+                  variant="contained"
+                  onClick={SubmitHandler}
+                  sx={{ marginTop: "15px" }}
+                >
+                  Submit
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="contained"
+                  onClick={SubmitHandler}
+                  sx={{ marginTop: "15px" }}
+                  disabled
+                >
+                  Submit
+                </Button>
+              </>
+            )}
           </FormContainer>
         </ThemeProvider>
       </div>

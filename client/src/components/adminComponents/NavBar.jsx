@@ -15,10 +15,11 @@ import { useCookies } from "react-cookie";
 
 import { useNavigate } from "react-router-dom";
 
-const pages = ["Add User", "View Users"];
+const pages = ["Add User", "View Users", "View Admin"];
 const settings = ["Dashboard", "Logout"];
 
 function ResponsiveAppBar({ type, setType }) {
+  console.log(type);
   const [cookies, removeCookie] = useCookies(["user"]);
   const nav = useNavigate();
 

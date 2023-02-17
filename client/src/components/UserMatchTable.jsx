@@ -1,15 +1,38 @@
-import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Avatar from "@mui/material/Avatar";
+import React, { useState } from "react";
+import axios from "axios";
+import {
+  Avatar,
+  Paper,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableContainer,
+  TableBody,
+  Table,
+  Button,
+} from "@mui/material";
 
-export default function BasicTable({ possibleMatch }) {
-  //   console.log(possibleMatch);
+export default function BasicTable({
+  possibleMatch,
+  filteredGenderedUsers,
+  user,
+}) {
+  const [matched, setMatched] = useState();
+
+  const AddMatch = async () => {
+    console.log(user.user_id);
+    console.log(matched.user_id);
+
+    const currentUser = user.user_id;
+    const selectedMatch = matched.user_id;
+
+    const match = await axios.put("http://localhost:8000/addmatch", {
+      currentUser,
+      selectedMatch,
+    });
+
+    console.log(match);
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -22,13 +45,15 @@ export default function BasicTable({ possibleMatch }) {
         <TableHead>
           <TableRow>
             <TableCell>IGN (In-Game Name)</TableCell>
-            <TableCell align="right">Email</TableCell>
-            <TableCell align="right">View Profile</TableCell>
-            <TableCell align="right">Pair</TableCell>
+            <TableCell align="center">Genre</TableCell>
+            <TableCell align="center">Email</TableCell>
+
+            <TableCell align="center">View Profile</TableCell>
+            <TableCell align="center">Pair</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {possibleMatch?.map((user) => (
+          {filteredGenderedUsers?.map((user) => (
             <TableRow
               key={user._id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -36,17 +61,32 @@ export default function BasicTable({ possibleMatch }) {
               <TableCell component="th" scope="row">
                 {user.first_name}
               </TableCell>
+              <TableCell component="th" scope="row" align="center">
+                {user.genre}
+              </TableCell>
 
-              <TableCell align="right">{user.email}</TableCell>
-              <TableCell align="right">
-                <Avatar alt="Remy Sharp" src={user.url} />
+              <TableCell align="center">{user.email}</TableCell>
+              <TableCell
+                align="center"
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
+                <Avatar
+                  alt="Remy Sharp"
+                  src={user.url}
+                  sx={{ float: "center" }}
+                />
               </TableCell>
-              {/* <TableCell align="right">
-                <DeleteModal user={user} />
+              <TableCell align="center">
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    AddMatch();
+                    setMatched(user);
+                  }}
+                >
+                  asd
+                </Button>
               </TableCell>
-              <TableCell align="right">
-                <UpdateModal user={user} admin={admin} />
-              </TableCell> */}
             </TableRow>
           ))}
         </TableBody>

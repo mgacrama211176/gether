@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie";
 import UpdateUser from "../components/UpdateUser";
 import axios from "axios";
 import UserMatchTable from "../components/UserMatchTable";
+import TinderCard from "react-tinder-card";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -11,83 +12,45 @@ const Dashboard = () => {
   // const [lastDirection, setLastDirection] = useState(
   //   "Swipe left to dislike, right for like"
   // );
-  const [cookies] = useCookies(["user"]);
+  const [lastDirection, setLastDirection] = useState();
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+
   const [possibleMatch, setPossibleMatch] = useState([]);
   // Update info useState and functions Below
   const [update, setUpdate] = useState(false);
 
   const userId = cookies.UserId;
 
-  const matchedUserIds = user?.matches
-    .map(({ user_id }) => user_id)
-    .concat(userId);
+  const getUser = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/user", {
+        params: { userId },
+      });
+      setUser(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getGenderedUsers = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/gendered-users", {
+        params: { gender: user?.gender_interest },
+      });
+      setGenderedUsers(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/user", {
-          params: { userId },
-        });
-        // console.log(response.data);
-        setUser(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const getGenderedUsers = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8000/gendered-users",
-          {
-            params: { gender: user?.gender_interest },
-          }
-        );
-        // console.log(response.data);
-        setGenderedUsers(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const filteredGenderedUsers = () => {
-      const filtered = genderedUsers?.filter(
-        (genderedUser) => !matchedUserIds?.includes(genderedUser.user_id)
-      );
-      console.log(filtered);
-      setPossibleMatch(filtered);
-    };
-
     getUser();
-    getGenderedUsers();
-    filteredGenderedUsers();
   }, []);
 
-  // useEffect(() => {
-
-  //   filteredGenderedUsers();
-  //   getUser();
-  // }, []);
-
-  // useEffect(() => {
-  //   if (user) {
-  //     getGenderedUsers();
-  //     console.log(user);
-  //   }
-  // }, [user]);
-
-  // Add match
-  // const updateMatches = async (matchedUserId) => {
-  //   try {
-  //     await axios.put("http://localhost:8000/addmatch", {
-  //       userId,
-  //       matchedUserId,
-  //     });
-  //     getUser();
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  useEffect(() => {
+    if (user) {
+      getGenderedUsers();
+    }
+  }, [user]);
 
   // const swiped = (direction, swipedUserId) => {
   //   if (direction === "right") {
@@ -100,6 +63,16 @@ const Dashboard = () => {
   //   console.log(name + " left the screen!");
   // };
 
+  const matchedUserIds = user?.matches
+    .map(({ user_id }) => user_id)
+    .concat(userId);
+
+  const filteredGenderedUsers = genderedUsers?.filter(
+    (genderedUser) => !matchedUserIds.includes(genderedUser.user_id)
+  );
+
+  // console.log("filteredGenderedUsers ", filteredGenderedUsers);
+
   return (
     <>
       {user && (
@@ -109,7 +82,11 @@ const Dashboard = () => {
           <div className="swipe-container">
             {update === false ? (
               <>
-                <UserMatchTable possibleMatch={possibleMatch} />
+                <UserMatchTable
+                  possibleMatch={possibleMatch}
+                  filteredGenderedUsers={filteredGenderedUsers}
+                  user={user}
+                />
                 {/* <div className="card-container">
                   {filteredGenderedUsers?.map((genderedUser) => (
                     <TinderCard
@@ -127,17 +104,11 @@ const Dashboard = () => {
                         className="card"
                       >
                         <h3>{genderedUser.first_name}</h3>
-                        <h3>Gaming Categories: {genderedUser.genre}</h3>
                       </div>
                     </TinderCard>
                   ))}
                   <div className="swipe-info">
-                    {lastDirection ===
-                    "Swipe left to dislike, right for like" ? (
-                      <p>{lastDirection} </p>
-                    ) : (
-                      <p>You swiped {lastDirection} </p>
-                    )}
+                    {lastDirection ? <p>You swiped {lastDirection}</p> : <p />}
                   </div>
                 </div> */}
               </>

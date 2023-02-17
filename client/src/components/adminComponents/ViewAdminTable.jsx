@@ -36,7 +36,7 @@ export default function BasicTable({ users, admin }) {
               key={user._id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              {user.access === "Sadmin" || user.access === "admin" ? (
+              {user.access === "user" || user.access === "Sadmin" ? (
                 ""
               ) : (
                 <>

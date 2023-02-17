@@ -12,6 +12,7 @@ import { Box } from "@mui/material";
 import Navbar from "../components/adminComponents/NavBar";
 import ManualAddUser from "../components/adminComponents/ManualAddUser";
 import ViewUser from "../components/adminComponents/ViewUser";
+import ViewAdmin from "../components/adminComponents/ViewAdmin";
 
 const Admin = () => {
   const [type, setType] = useState("Add User");
@@ -55,10 +56,12 @@ const Admin = () => {
             <>
               <ManualAddUser setType={setType} admin={admin} />
             </>
-          ) : (
+          ) : type === "View Users" ? (
             <>
               <ViewUser admin={admin} />
             </>
+          ) : (
+            <ViewAdmin admin={admin} />
           )}
         </Box>
       </Container>
