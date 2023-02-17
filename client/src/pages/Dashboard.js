@@ -21,6 +21,8 @@ const Dashboard = () => {
 
   const userId = cookies.UserId;
 
+  console.log(user);
+
   const getUser = async () => {
     try {
       const response = await axios.get("http://localhost:8000/user", {

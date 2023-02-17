@@ -17,18 +17,19 @@ export default function BasicTable({
   filteredGenderedUsers,
   user,
 }) {
+  console.log(filteredGenderedUsers);
   const [matched, setMatched] = useState();
 
   const AddMatch = async () => {
     console.log(user.user_id);
     console.log(matched.user_id);
 
-    const currentUser = user.user_id;
-    const selectedMatch = matched.user_id;
+    const userId = user.user_id;
+    const matchedUserId = matched.user_id;
 
     const match = await axios.put("http://localhost:8000/addmatch", {
-      currentUser,
-      selectedMatch,
+      userId,
+      matchedUserId,
     });
 
     console.log(match);

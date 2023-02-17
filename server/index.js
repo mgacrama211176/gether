@@ -287,6 +287,8 @@ app.put("/addmatch", async (req, res) => {
     const users = database.collection("users");
 
     const query = { user_id: userId };
+    console.log(query);
+
     const updateDocument = {
       $push: { matches: { user_id: matchedUserId } },
     };

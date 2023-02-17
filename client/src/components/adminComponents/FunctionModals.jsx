@@ -98,6 +98,7 @@ export const UpdateModal = ({ user, admin }) => {
     cpassword: "",
     url: user.url,
     email: `${user.email}`,
+    genre: user.genre,
 
     //new added Data's
     validated: user.validated,
