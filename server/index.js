@@ -293,7 +293,7 @@ app.put("/addmatch", async (req, res) => {
       $push: { matches: { user_id: matchedUserId } },
     };
     const user = await users.updateOne(query, updateDocument);
-    res.send(user);
+    res.json(user);
   } finally {
     await client.close();
   }

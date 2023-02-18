@@ -13,7 +13,7 @@ const Home = () => {
     if (authToken) {
       removeCookie("UserId", cookies.UserId);
       removeCookie("AuthToken", cookies.AuthToken);
-      window.location.reload();
+
       return;
     }
     setShowModal(true);

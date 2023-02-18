@@ -5,6 +5,7 @@ import UpdateUser from "../components/UpdateUser";
 import axios from "axios";
 import UserMatchTable from "../components/UserMatchTable";
 import TinderCard from "react-tinder-card";
+import { ToastContainer } from "react-toastify";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -19,6 +20,8 @@ const Dashboard = () => {
   // Update info useState and functions Below
   const [update, setUpdate] = useState(false);
   const [matched, setMatched] = useState();
+  const [status, setStatus] = useState("");
+  const [filtered, setFiltered] = useState([]);
 
   const userId = cookies.UserId;
 
@@ -47,13 +50,13 @@ const Dashboard = () => {
 
   useEffect(() => {
     getUser();
-  }, [matched]);
+  }, []);
 
   useEffect(() => {
     if (user) {
       getGenderedUsers();
     }
-  }, [user, matched]);
+  }, [user, status]);
 
   // const swiped = (direction, swipedUserId) => {
   //   if (direction === "right") {
@@ -65,6 +68,8 @@ const Dashboard = () => {
   // const outOfFrame = (name) => {
   //   console.log(name + " left the screen!");
   // };
+
+  ///----------------------------------------------------------------------------------------
 
   const matchedUserIds = user?.matches
     .map(({ user_id }) => user_id)
@@ -78,6 +83,7 @@ const Dashboard = () => {
 
   return (
     <>
+      <ToastContainer />
       {user && (
         <div className="dashboard">
           <ChatContainer user={user} update={update} setUpdate={setUpdate} />
@@ -91,6 +97,8 @@ const Dashboard = () => {
                   user={user}
                   matched={matched}
                   setMatched={setMatched}
+                  status={status}
+                  setStatus={setStatus}
                 />
                 {/* <div className="card-container">
                   {filteredGenderedUsers?.map((genderedUser) => (

@@ -12,6 +12,8 @@ import {
 import axios from "axios";
 import MatchedTable from "./MatchedTable";
 import ComboBox from "./ComboBox";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const boxContainer = {
   backgroundColor: "white",
@@ -30,11 +32,13 @@ const UpdateUser = ({ user, userId, setUpdate }) => {
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState("");
   const [viewUser, setViewUser] = useState("");
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   //For the genre category
   const options = ["rts", "fps", "rpg", "moba"];
   const [value, setValue] = useState(user.genre);
   const [inputValue, setInputValue] = useState("");
+  const nav = useNavigate();
 
   const OnclickSelectedPairing = async () => {
     const fetched = await axios.get(
@@ -65,7 +69,7 @@ const UpdateUser = ({ user, userId, setUpdate }) => {
     password: ``,
     cpassword: ``,
     genre: `${user.genre}`,
-    access:"user"
+    access: "user",
   });
 
   const onChangeHandle = (e) => {
@@ -100,7 +104,12 @@ const UpdateUser = ({ user, userId, setUpdate }) => {
 
     setUpdating(false);
     setLoading(false);
-    window.location.reload();
+    // window.location.reload();
+
+    removeCookie("UserId", cookies.UserId);
+    removeCookie("AuthToken", cookies.AuthToken);
+
+    nav("/");
   };
 
   // remove Match

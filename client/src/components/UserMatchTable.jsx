@@ -11,6 +11,7 @@ import {
   Table,
   Button,
 } from "@mui/material";
+import { matchRequest } from "./Toasts";
 
 export default function BasicTable({
   possibleMatch,
@@ -18,11 +19,13 @@ export default function BasicTable({
   user,
   matched,
   setMatched,
+  status,
+  setStatus,
 }) {
   //This is the function for adding the matches of the user.
   // console.log(matched);
   // console.log(user.user_id);
-
+  console.log(filteredGenderedUsers);
   const AddMatch = async () => {
     if (matched === undefined) {
     } else {
@@ -35,8 +38,11 @@ export default function BasicTable({
           userId,
           matchedUserId,
         });
-        console.log(match);
-        console.log(user);
+        matchRequest();
+        setStatus("OK");
+        setMatched();
+        console.log(match.data);
+
         window.location.reload();
       } else {
       }

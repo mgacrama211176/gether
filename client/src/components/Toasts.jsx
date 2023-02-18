@@ -39,3 +39,16 @@ export const userUpdated = () => {
     theme: "light",
   });
 };
+
+export const matchRequest = () => {
+  toast.success("Match request added!", {
+    position: "top-right",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: false,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: "light",
+  });
+};

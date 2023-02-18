@@ -12,15 +12,13 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useCookies } from "react-cookie";
-
 import { useNavigate } from "react-router-dom";
 
 const pages = ["Add User", "View Users", "View Admin"];
 const settings = ["Dashboard", "Logout"];
 
 function ResponsiveAppBar({ type, setType }) {
-  console.log(type);
-  const [cookies, removeCookie] = useCookies(["user"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   const nav = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -47,9 +45,16 @@ function ResponsiveAppBar({ type, setType }) {
     if (settingOption === "Dashboard") {
       nav("/dashboard");
     } else if (settingOption === "Logout") {
-      removeCookie("UserId", cookies.UserId);
-      removeCookie("AuthToken", cookies.AuthToken);
-      nav("/");
+      try {
+        const user = removeCookie("UserId", cookies.UserId);
+        const auth = removeCookie("AuthToken", cookies.AuthToken);
+
+        nav("/");
+
+        return;
+      } catch (err) {
+        console.log(err);
+      }
     } else {
     }
   }, [settingOption]);
