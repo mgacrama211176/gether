@@ -131,7 +131,10 @@ const OnBoarding = ({ setType, admin }) => {
       formData.email === "" ||
       formData.password === "" ||
       formData.cpassword === "" ||
-      formData.first_name === ""
+      formData.first_name === "" ||
+      formData.birthDate === "" ||
+      formData.gender_identity === "" ||
+      formData.gender_interest === ""
     ) {
       setValidation(false);
       setValidationMes("Required inputs must be filled");
@@ -156,14 +159,14 @@ const OnBoarding = ({ setType, admin }) => {
 
     setFormData(newUser);
   };
-
+  console.log(admin);
   return (
     <>
       {/* Same as */}
       <div>
         <ThemeProvider theme={theme}>
           <FormContainer sx={{ padding: 3 }}>
-            <h2>Add User / Admin</h2>
+            {admin === "Sadmin" ? <h2>Add User / Admin</h2> : <h2>Add User</h2>}
             <Box
               sx={{
                 display: "flex",

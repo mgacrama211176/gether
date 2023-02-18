@@ -10,12 +10,14 @@ import {
   TableBody,
   Table,
   Button,
+  Typography,
 } from "@mui/material";
 import { matchRequest } from "./Toasts";
+import { DashboardOption } from "./Dashboard menu/Menu";
 
 export default function BasicTable({
   possibleMatch,
-  filteredGenderedUsers,
+  filtered,
   user,
   matched,
   setMatched,
@@ -23,9 +25,9 @@ export default function BasicTable({
   setStatus,
 }) {
   //This is the function for adding the matches of the user.
-  // console.log(matched);
-  // console.log(user.user_id);
-  console.log(filteredGenderedUsers);
+
+  const [option, setOption] = useState(true);
+
   const AddMatch = async () => {
     if (matched === undefined) {
     } else {
@@ -43,7 +45,7 @@ export default function BasicTable({
         setMatched();
         console.log(match.data);
 
-        window.location.reload();
+        // window.location.reload();
       } else {
       }
     } catch (err) {
@@ -56,61 +58,70 @@ export default function BasicTable({
   }, [matched]);
 
   return (
-    <TableContainer component={Paper}>
-      <Table
-        sx={{
-          minWidth: 650,
-        }}
-        aria-label="simple table"
-      >
-        <TableHead>
-          <TableRow>
-            <TableCell>IGN (In-Game Name)</TableCell>
-            <TableCell align="center">Genre</TableCell>
-            <TableCell align="center">Email</TableCell>
+    <>
+      <DashboardOption option={option} setOption={setOption} />
 
-            <TableCell align="center">View Profile</TableCell>
-            <TableCell align="center">Pair</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {filteredGenderedUsers?.map((user) => (
-            <TableRow
-              key={user._id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {user.first_name}
-              </TableCell>
-              <TableCell component="th" scope="row" align="center">
-                {user.genre}
-              </TableCell>
+      <>
+        <Typography variant="h3" sx={{ color: "white", padding: 2 }}>
+          {option ? "Available match" : "Requesting Match"}
+        </Typography>
+        <TableContainer component={Paper}>
+          <Table
+            sx={{
+              minWidth: 650,
+            }}
+            aria-label="simple table"
+          >
+            <TableHead>
+              <TableRow>
+                <TableCell>IGN (In-Game Name)</TableCell>
+                <TableCell align="center">Genre</TableCell>
+                <TableCell align="center">Email</TableCell>
 
-              <TableCell align="center">{user.email}</TableCell>
-              <TableCell
-                align="center"
-                sx={{ display: "flex", justifyContent: "center" }}
-              >
-                <Avatar
-                  alt="Remy Sharp"
-                  src={user.url}
-                  sx={{ float: "center" }}
-                />
-              </TableCell>
-              <TableCell align="center">
-                <Button
-                  variant="outlined"
-                  onClick={() => {
-                    setMatched(user.user_id);
-                  }}
+                <TableCell align="center">View Profile</TableCell>
+                <TableCell align="center">Pair</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {filtered?.map((user) => (
+                <TableRow
+                  key={user._id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  pair
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+                  <TableCell component="th" scope="row">
+                    {user.first_name}
+                  </TableCell>
+                  <TableCell component="th" scope="row" align="center">
+                    {user.genre}
+                  </TableCell>
+
+                  <TableCell align="center">{user.email}</TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{ display: "flex", justifyContent: "center" }}
+                  >
+                    <Avatar
+                      alt="Remy Sharp"
+                      src={user.url}
+                      sx={{ float: "center" }}
+                    />
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button
+                      variant="outlined"
+                      onClick={() => {
+                        setMatched(user.user_id);
+                      }}
+                    >
+                      pair
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </>
+    </>
   );
 }

@@ -104,12 +104,8 @@ const UpdateUser = ({ user, userId, setUpdate }) => {
 
     setUpdating(false);
     setLoading(false);
-    // window.location.reload();
-
-    removeCookie("UserId", cookies.UserId);
-    removeCookie("AuthToken", cookies.AuthToken);
-
-    nav("/");
+    nav("/dashboard");
+    window.location.reload();
   };
 
   // remove Match

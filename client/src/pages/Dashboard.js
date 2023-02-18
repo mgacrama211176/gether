@@ -75,9 +75,15 @@ const Dashboard = () => {
     .map(({ user_id }) => user_id)
     .concat(userId);
 
-  const filteredGenderedUsers = genderedUsers?.filter(
-    (genderedUser) => !matchedUserIds.includes(genderedUser.user_id)
-  );
+  useEffect(() => {
+    const filteredGenderedUsers = () =>
+      genderedUsers?.filter(
+        (genderedUser) => !matchedUserIds.includes(genderedUser.user_id)
+      );
+    filteredGenderedUsers();
+    console.log(filtered);
+    setFiltered(filteredGenderedUsers);
+  }, [matched, user, update]);
 
   // console.log("filteredGenderedUsers ", filteredGenderedUsers);
 
@@ -89,11 +95,11 @@ const Dashboard = () => {
           <ChatContainer user={user} update={update} setUpdate={setUpdate} />
 
           <div className="swipe-container">
-            {update === false ? (
+            {update !== false ? (
               <>
                 <UserMatchTable
                   possibleMatch={possibleMatch}
-                  filteredGenderedUsers={filteredGenderedUsers}
+                  filtered={filtered}
                   user={user}
                   matched={matched}
                   setMatched={setMatched}
