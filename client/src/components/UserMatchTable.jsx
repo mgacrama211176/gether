@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Avatar,
@@ -16,26 +16,38 @@ export default function BasicTable({
   possibleMatch,
   filteredGenderedUsers,
   user,
+  matched,
+  setMatched,
 }) {
-  const [matched, setMatched] = useState("");
+  //This is the function for adding the matches of the user.
+  // console.log(matched);
+  // console.log(user.user_id);
 
   const AddMatch = async () => {
-    console.log(user.user_id);
-    console.log(matched.user_id);
-    // console.log(matched.user_id);
-    // try {
-    //   const userId = user?.user_id;
-    //   const matchedUserId = matched.user_id;
-    //   const match = await axios.put("http://localhost:8000/addmatch", {
-    //     userId,
-    //     matchedUserId,
-    //   });
-    //   console.log(match);
-    //   window.location.reload();
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    if (matched === undefined) {
+    } else {
+    }
+    try {
+      if (matched !== undefined) {
+        const userId = user.user_id;
+        const matchedUserId = matched;
+        const match = await axios.put("http://localhost:8000/addmatch", {
+          userId,
+          matchedUserId,
+        });
+        console.log(match);
+        console.log(user);
+        window.location.reload();
+      } else {
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+  useEffect(() => {
+    AddMatch();
+  }, [matched]);
 
   return (
     <TableContainer component={Paper}>
@@ -83,8 +95,7 @@ export default function BasicTable({
                 <Button
                   variant="outlined"
                   onClick={() => {
-                    AddMatch();
-                    setMatched(user);
+                    setMatched(user.user_id);
                   }}
                 >
                   pair

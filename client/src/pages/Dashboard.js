@@ -18,10 +18,11 @@ const Dashboard = () => {
   const [possibleMatch, setPossibleMatch] = useState([]);
   // Update info useState and functions Below
   const [update, setUpdate] = useState(false);
+  const [matched, setMatched] = useState();
 
   const userId = cookies.UserId;
 
-  console.log(user);
+  // console.log(user);
 
   const getUser = async () => {
     try {
@@ -46,13 +47,13 @@ const Dashboard = () => {
 
   useEffect(() => {
     getUser();
-  }, []);
+  }, [matched]);
 
   useEffect(() => {
     if (user) {
       getGenderedUsers();
     }
-  }, [user]);
+  }, [user, matched]);
 
   // const swiped = (direction, swipedUserId) => {
   //   if (direction === "right") {
@@ -88,6 +89,8 @@ const Dashboard = () => {
                   possibleMatch={possibleMatch}
                   filteredGenderedUsers={filteredGenderedUsers}
                   user={user}
+                  matched={matched}
+                  setMatched={setMatched}
                 />
                 {/* <div className="card-container">
                   {filteredGenderedUsers?.map((genderedUser) => (
