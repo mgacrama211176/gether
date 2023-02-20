@@ -52,3 +52,16 @@ export const matchRequest = () => {
     theme: "light",
   });
 };
+
+export const tryAgain = () => {
+  toast.error("Error please try again", {
+    position: "top-right",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: false,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+    theme: "light",
+  });
+};

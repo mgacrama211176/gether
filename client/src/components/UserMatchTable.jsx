@@ -11,44 +11,59 @@ import {
   Table,
   Button,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import { matchRequest } from "./Toasts";
-import { DashboardOption } from "./Dashboard menu/Menu";
 
 export default function BasicTable({
-  possibleMatch,
   filtered,
   user,
   matched,
   setMatched,
-  status,
   setStatus,
 }) {
   //This is the function for adding the matches of the user.
 
   const [option, setOption] = useState(true);
+  const [loader, setLoader] = useState(false);
 
   const AddMatch = async () => {
-    if (matched === undefined) {
-    } else {
-    }
+    setLoader(true);
+
+    //adding for the match
     try {
       if (matched !== undefined) {
         const userId = user.user_id;
         const matchedUserId = matched;
-        const match = await axios.put("http://localhost:8000/addmatch", {
-          userId,
-          matchedUserId,
-        });
+        const match = await axios.put(
+          "https://getherbackend.onrender.com/addmatch",
+          {
+            userId,
+            matchedUserId,
+          }
+        );
+
+        //adding for the notif
+        try {
+          const Addnotif = await axios.post(
+            `http://localhost:8000/notification/addNotif/${userId}/${matchedUserId}`
+          );
+          console.log(Addnotif);
+        } catch (err) {
+          console.log(err);
+        }
+
         matchRequest();
         setStatus("OK");
         setMatched();
         console.log(match.data);
-
-        // window.location.reload();
+        setLoader(false);
+        window.location.reload();
       } else {
+        setLoader(false);
       }
     } catch (err) {
+      setLoader(false);
       console.log(err);
     }
   };
@@ -59,8 +74,6 @@ export default function BasicTable({
 
   return (
     <>
-      <DashboardOption option={option} setOption={setOption} />
-
       <>
         <Typography variant="h3" sx={{ color: "white", padding: 2 }}>
           {option ? "Available match" : "Requesting Match"}
@@ -107,14 +120,20 @@ export default function BasicTable({
                     />
                   </TableCell>
                   <TableCell align="center">
-                    <Button
-                      variant="outlined"
-                      onClick={() => {
-                        setMatched(user.user_id);
-                      }}
-                    >
-                      pair
-                    </Button>
+                    {loader ? (
+                      <>
+                        <CircularProgress />
+                      </>
+                    ) : (
+                      <Button
+                        variant="outlined"
+                        onClick={() => {
+                          setMatched(user.user_id);
+                        }}
+                      >
+                        pair
+                      </Button>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

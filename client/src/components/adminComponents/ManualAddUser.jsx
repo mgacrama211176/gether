@@ -81,7 +81,7 @@ const OnBoarding = ({ setType, admin }) => {
     userAdded();
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/admin/signup", {
+      const response = await axios.post("https://getherbackend.onrender.com/admin/signup", {
         email: formData.email,
         password: formData.password,
         first_name: formData.first_name,

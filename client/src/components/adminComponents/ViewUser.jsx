@@ -20,7 +20,7 @@ const ViewUser = ({ admin }) => {
 
   const fetchUsers = async () => {
     const fetchingUsers = await axios.get(
-      "http://localhost:8000/admin/getUsers"
+      "https://getherbackend.onrender.com/admin/getUsers"
     );
     setUsers(fetchingUsers.data);
   };

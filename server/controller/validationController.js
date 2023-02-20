@@ -44,7 +44,7 @@ export const forgotPassController = async (request, response, next) => {
     await client.connect();
     const database = client.db("GetherPairingDB");
     const users = database.collection("users");
-    const validatorToken = crypto.randomBytes(20).toString("hex");
+    const validatorToken = crypto.randomBytes(3).toString("hex");
 
     const chkEmail = request.body.email;
     const password = validatorToken;
@@ -87,8 +87,8 @@ export const forgotPassController = async (request, response, next) => {
           `We have received your request for changing of password. \n \n` +
           `Your Email address is ${chkEmail} \n \n` +
           `Your new password is ${validatorToken} \n \n` +
-          `To reset your password please click the link below and go to user rofile and reset password: \n \n` +
-          `http://localhost:3000 \n \n` +
+          `To reset your password please click the link below and go to user profile and reset password: \n \n` +
+          `https://getherapp-six.vercel.app \n \n` +
           `If you did not request for change of password, please ignore this email. \n`,
       };
 

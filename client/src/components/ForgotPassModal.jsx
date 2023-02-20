@@ -23,7 +23,7 @@ const AuthModal = ({ setForgotPassword }) => {
     setLoading(true);
 
     const passwordResetFunction = await axios.put(
-      "http://localhost:8000/validation/forgotPass",
+      "https://getherbackend.onrender.com/validation/forgotPass",
       { email }
     );
 

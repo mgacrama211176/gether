@@ -10,7 +10,6 @@ export default function ControllableStates({
   options,
   user,
 }) {
-  console.log(user.genre);
   return (
     <div>
       <br />

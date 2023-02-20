@@ -23,7 +23,7 @@ const MatchedUsers = ({ user, selected, setSelected, value, viewUser }) => {
   const retrieveMatchesByUserId = async () => {
     setLoading(true);
     const users = await axios.get(
-      `http://localhost:8000/usersInfo/genre/${value}/${matchContainer}`
+      `https://getherbackend.onrender.com/usersInfo/genre/${value}/${matchContainer}`
     );
     setUsersData(users.data);
     setLoading(false);

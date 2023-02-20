@@ -22,9 +22,12 @@ const Admin = () => {
 
   const getUser = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/user", {
-        params: { userId },
-      });
+      const response = await axios.get(
+        "https://getherbackend.onrender.com/user",
+        {
+          params: { userId },
+        }
+      );
 
       setAdmin(response.data.access);
     } catch (error) {

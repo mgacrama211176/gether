@@ -28,10 +28,13 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
 
     if (isSignUp === true) {
       if (password === confirmPassword) {
-        const register = await axios.post(`http://localhost:8000/signup`, {
-          email,
-          password,
-        });
+        const register = await axios.post(
+          `https://getherbackend.onrender.com/signup`,
+          {
+            email,
+            password,
+          }
+        );
 
         navigate("/verify");
       } else {
@@ -41,13 +44,19 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
       // if isSignup is false or user trying to login.
 
       try {
-        const login = await axios.post(`http://localhost:8000/login`, {
-          email,
-          password,
-        });
+        const login = await axios.post(
+          `https://getherbackend.onrender.com/login`,
+          {
+            email,
+            password,
+          }
+        );
 
         // if it's an admin
-        if (login.data.user.access === "admin" ||login.data.user.access === "Sadmin" ) {
+        if (
+          login.data.user.access === "admin" ||
+          login.data.user.access === "Sadmin"
+        ) {
           navigate("/admin");
           setCookie("AuthToken", login.data.token, { path: "/" });
           setCookie("UserId", login.data.userId, { path: "/" });

@@ -12,6 +12,7 @@ import crypto from "crypto";
 import adminRouter from "./router/adminRouter.js";
 import validation from "./router/validation.js";
 import usersRouter from "./router/usersRouter.js";
+import notificationRouter from "./router/notificationRouter.js";
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ app.get("/", (req, res) => {
 app.use("/admin", adminRouter);
 app.use("/validation", validation);
 app.use("/usersInfo", usersRouter);
+app.use("/notification", notificationRouter);
 
 // Sign up to the Database
 app.post("/signup", async (req, res) => {
@@ -104,7 +106,7 @@ app.post("/signup", async (req, res) => {
       text:
         `Thank you for signing up for our services. To complete the registration process and start using our platform, we need to verify your email address.. \n \n` +
         `Please click the link below to confirm your email address: \n \n` +
-        `http://localhost:3000/verified/${validatorToken} \n \n` +
+        `https://getherapp-six.vercel.app/verified/${validatorToken} \n \n` +
         `If you did not sign up for our services, please ignore this email. \n`,
     };
 
@@ -231,7 +233,7 @@ app.post("/login", async (req, res) => {
           text:
             `Thank you for signing up for our services. To complete the registration process and start using our platform, we need to verify your email address.. \n \n` +
             `Please click the link below to confirm your email address: \n \n` +
-            `http://localhost:3000/verified/${validatorToken} \n \n` +
+            `https://getherapp-six.vercel.app/verified/${validatorToken} \n \n` +
             `If you did not sign up for our services, please ignore this email. \n`,
         };
 

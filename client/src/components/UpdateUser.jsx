@@ -42,7 +42,7 @@ const UpdateUser = ({ user, userId, setUpdate }) => {
 
   const OnclickSelectedPairing = async () => {
     const fetched = await axios.get(
-      `http://localhost:8000/usersInfo/usersById/${selected}`
+      `https://getherbackend.onrender.com/usersInfo/usersById/${selected}`
     );
 
     fetched.data.map((user) => {
@@ -97,7 +97,7 @@ const UpdateUser = ({ user, userId, setUpdate }) => {
   const OnClickUpdate = async () => {
     setLoading(true);
     const updateData = await axios.put(
-      `http://localhost:8000/admin/updateUser/${user.user_id}`,
+      `https://getherbackend.onrender.com/admin/updateUser/${user.user_id}`,
       newInfo
     );
     console.log(updateData);
@@ -112,7 +112,7 @@ const UpdateUser = ({ user, userId, setUpdate }) => {
   const removeMatches = async () => {
     try {
       const process = await axios.get(
-        `http://localhost:8000/unmatch/${userId}/${selected}`
+        `https://getherbackend.onrender.com/unmatch/${userId}/${selected}`
       );
     } catch (err) {
       console.log(err);
@@ -159,7 +159,7 @@ const UpdateUser = ({ user, userId, setUpdate }) => {
                         <img src={user.url} alt="userImage" width="100%" />
                       </Box>
                       <Box>
-                        <p>First Name: {user.first_name}</p>
+                        <p>In game Name (IGN): {user.first_name}</p>
                         <p>Email: {user.email}</p>
                         <p>Date of Birth:{user?.birthDate} </p>
                         <p>Gender: {user.gender_identity}</p>
@@ -175,7 +175,7 @@ const UpdateUser = ({ user, userId, setUpdate }) => {
                         <img src={viewUser.url} alt="userImage" width="100%" />
                       </Box>
                       <Box>
-                        <p>First Name: {viewUser.first_name}</p>
+                        <p>In game Name (IGN): {viewUser.first_name}</p>
                         <p>Email: {viewUser.email}</p>
                         <p>Date of Birth:{viewUser?.birthDate} </p>
                         <p>Gender: {viewUser.gender_identity}</p>
@@ -228,7 +228,7 @@ const UpdateUser = ({ user, userId, setUpdate }) => {
                   <TextField
                     id="first_name"
                     name="first_name"
-                    label="First Name"
+                    label="In game Name (IGN)"
                     defaultValue={user.first_name}
                     variant="standard"
                     onChange={(e) => onChangeHandle(e)}

@@ -43,7 +43,7 @@ export const DeleteModal = ({ user }) => {
   const deleteButton = async () => {
     console.log(user.user_id);
     const deleteData = await axios.delete(
-      `http://localhost:8000/admin/deleteUser/${user.user_id}`
+      `https://getherbackend.onrender.com/admin/deleteUser/${user.user_id}`
     );
     deleteUser();
     console.log(deleteData.status);
@@ -114,7 +114,7 @@ export const UpdateModal = ({ user, admin }) => {
     console.log("user info updated!");
 
     const updateData = await axios.put(
-      `http://localhost:8000/admin/updateUser/${id}`,
+      `https://getherbackend.onrender.com/admin/updateUser/${id}`,
       updateUser
     );
     console.log(updateData.data.value);

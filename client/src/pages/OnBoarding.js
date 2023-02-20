@@ -36,9 +36,12 @@ const OnBoarding = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put("http://localhost:8000/user", {
-        formData,
-      });
+      const response = await axios.put(
+        "https://getherbackend.onrender.com/user",
+        {
+          formData,
+        }
+      );
       console.log(response);
 
       const success = response.status === 200;

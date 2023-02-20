@@ -7,6 +7,9 @@ import UserMatchTable from "../components/UserMatchTable";
 import TinderCard from "react-tinder-card";
 import { ToastContainer } from "react-toastify";
 
+//NOTIFICATION
+import Modal from "../components/notification/Modal";
+
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [genderedUsers, setGenderedUsers] = useState(null);
@@ -29,9 +32,12 @@ const Dashboard = () => {
 
   const getUser = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/user", {
-        params: { userId },
-      });
+      const response = await axios.get(
+        "https://getherbackend.onrender.com/user",
+        {
+          params: { userId },
+        }
+      );
       setUser(response.data);
     } catch (error) {
       console.log(error);
@@ -39,9 +45,12 @@ const Dashboard = () => {
   };
   const getGenderedUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/gendered-users", {
-        params: { gender: user?.gender_interest },
-      });
+      const response = await axios.get(
+        "https://getherbackend.onrender.com/gendered-users",
+        {
+          params: { gender: user?.gender_interest },
+        }
+      );
       setGenderedUsers(response.data);
     } catch (error) {
       console.log(error);
@@ -81,7 +90,6 @@ const Dashboard = () => {
         (genderedUser) => !matchedUserIds.includes(genderedUser.user_id)
       );
     filteredGenderedUsers();
-    console.log(filtered);
     setFiltered(filteredGenderedUsers);
   }, [matched, user, update]);
 
@@ -90,6 +98,9 @@ const Dashboard = () => {
   return (
     <>
       <ToastContainer />
+
+      <Modal user={user} />
+
       {user && (
         <div className="dashboard">
           <ChatContainer user={user} update={update} setUpdate={setUpdate} />
