@@ -4,7 +4,6 @@ import { useCookies } from "react-cookie";
 import UpdateUser from "../components/UpdateUser";
 import axios from "axios";
 import UserMatchTable from "../components/UserMatchTable";
-import TinderCard from "react-tinder-card";
 import { ToastContainer } from "react-toastify";
 
 //NOTIFICATION
@@ -13,13 +12,9 @@ import Modal from "../components/notification/Modal";
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [genderedUsers, setGenderedUsers] = useState(null);
-  // const [lastDirection, setLastDirection] = useState(
-  //   "Swipe left to dislike, right for like"
-  // );
-  const [lastDirection, setLastDirection] = useState();
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
-
   const [possibleMatch, setPossibleMatch] = useState([]);
+
   // Update info useState and functions Below
   const [update, setUpdate] = useState(false);
   const [matched, setMatched] = useState();
@@ -27,8 +22,6 @@ const Dashboard = () => {
   const [filtered, setFiltered] = useState([]);
 
   const userId = cookies.UserId;
-
-  // console.log(user);
 
   const getUser = async () => {
     try {
@@ -67,17 +60,6 @@ const Dashboard = () => {
     }
   }, [user, status]);
 
-  // const swiped = (direction, swipedUserId) => {
-  //   if (direction === "right") {
-  //     updateMatches(swipedUserId);
-  //   }
-  //   setLastDirection(direction);
-  // };
-
-  // const outOfFrame = (name) => {
-  //   console.log(name + " left the screen!");
-  // };
-
   ///----------------------------------------------------------------------------------------
 
   const matchedUserIds = user?.matches
@@ -92,8 +74,6 @@ const Dashboard = () => {
     filteredGenderedUsers();
     setFiltered(filteredGenderedUsers);
   }, [matched, user, update]);
-
-  // console.log("filteredGenderedUsers ", filteredGenderedUsers);
 
   return (
     <>
@@ -117,30 +97,6 @@ const Dashboard = () => {
                   status={status}
                   setStatus={setStatus}
                 />
-                {/* <div className="card-container">
-                  {filteredGenderedUsers?.map((genderedUser) => (
-                    <TinderCard
-                      className="swipe"
-                      key={genderedUser.user_id}
-                      onSwipe={(dir) => swiped(dir, genderedUser.user_id)}
-                      onCardLeftScreen={() =>
-                        outOfFrame(genderedUser.first_name)
-                      }
-                    >
-                      <div
-                        style={{
-                          backgroundImage: "url(" + genderedUser.url + ")",
-                        }}
-                        className="card"
-                      >
-                        <h3>{genderedUser.first_name}</h3>
-                      </div>
-                    </TinderCard>
-                  ))}
-                  <div className="swipe-info">
-                    {lastDirection ? <p>You swiped {lastDirection}</p> : <p />}
-                  </div>
-                </div> */}
               </>
             ) : (
               <>

@@ -1,6 +1,6 @@
 import React from "react";
-import { Container, Box, Paper } from "@mui/material";
-import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { Box, Paper } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import background from "../images/gethersplashpage2.gif";
 
 const Item = styled(Paper)(({ theme }) => ({

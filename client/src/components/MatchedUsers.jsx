@@ -6,7 +6,6 @@ const MatchedUsers = ({ user, selected, setSelected, value, viewUser }) => {
   const [usersData, setUsersData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [matchContainer, setMatchContainer] = useState(user.user_id);
-  // const matches = user.user_id;
 
   useEffect(() => {
     const genreViewer = () => {

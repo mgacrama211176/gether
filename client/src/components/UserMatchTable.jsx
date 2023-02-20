@@ -24,7 +24,6 @@ export default function BasicTable({
 }) {
   //This is the function for adding the matches of the user.
 
-  const [option, setOption] = useState(true);
   const [loader, setLoader] = useState(false);
 
   const AddMatch = async () => {
@@ -46,7 +45,7 @@ export default function BasicTable({
         //adding for the notif
         try {
           const Addnotif = await axios.post(
-            `http://localhost:8000/notification/addNotif/${userId}/${matchedUserId}`
+            `https://getherbackend.onrender.com/notification/addNotif/${userId}/${matchedUserId}`
           );
           console.log(Addnotif);
         } catch (err) {
@@ -75,9 +74,10 @@ export default function BasicTable({
   return (
     <>
       <>
-        <Typography variant="h3" sx={{ color: "white", padding: 2 }}>
-          {option ? "Available match" : "Requesting Match"}
-        </Typography>
+        <Typography
+          variant="h3"
+          sx={{ color: "white", padding: 2 }}
+        ></Typography>
         <TableContainer component={Paper}>
           <Table
             sx={{

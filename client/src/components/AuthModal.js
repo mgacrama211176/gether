@@ -13,7 +13,6 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
   const [cookies, setCookie, removeCookie] = useCookies(null);
   const [loading, setLoading] = useState(false);
   const [forgotPassword, setForgotPassword] = useState(false);
-  const [dataHolder, setDataHolder] = useState("");
   let navigate = useNavigate();
 
   const handleClick = () => {

@@ -41,7 +41,7 @@ export default function BasicModal({ user }) {
 
   const fetchingNotif = async () => {
     const data = await axios.get(
-      `http://localhost:8000/notification/getNotif/${selectedId}`
+      `https://getherbackend.onrender.com/notification/getNotif/${selectedId}`
     );
     setNotifications(data.data);
   };
@@ -64,7 +64,7 @@ export default function BasicModal({ user }) {
       );
 
       const updateNotif = await axios.put(
-        `http://localhost:8000/notification/updateNotif/${selectedId}`
+        `https://getherbackend.onrender.com/notification/updateNotif/${selectedId}`
       );
 
       console.log(updateNotif);
@@ -73,10 +73,6 @@ export default function BasicModal({ user }) {
       window.location.reload();
     }
   };
-
-  //   useEffect(() => {
-  //     AcceptMatch();
-  //   }, []);
 
   useEffect(() => {
     fetchingNotif();
