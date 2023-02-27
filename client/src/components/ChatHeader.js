@@ -30,9 +30,9 @@ const ChatHeader = ({ user, setUpdate, update }) => {
           </h5>
         </div>
       </div>
-      <i className="log-out-icon" onClick={logout}>
-        ⇦
-      </i>
+      <button className="primary-button logoutPlacement" onClick={logout}>
+        Logout
+      </button>
     </div>
   );
 };

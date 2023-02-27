@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Paper } from "@mui/material";
+import { Box, Paper, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
@@ -41,14 +41,21 @@ const Verified = () => {
       <Box
         sx={{
           p: 2,
-          bgcolor: "background.default",
+          bgcolor: "transparent",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           height: "100vh",
         }}
       >
-        <Item elevation={3} sx={{ fontSize: "18px" }}>
+        <Item
+          elevation={1}
+          sx={{
+            fontSize: "36px",
+            color: "white",
+            backgroundColor: "transparent",
+          }}
+        >
           Thank you for verifying your email address. Your email has been
           successfully confirmed and your account is now active. You can now
           start using our platform and enjoy all of its features. If you have
@@ -57,7 +64,21 @@ const Verified = () => {
           <br />
           <br />
           <Link to="/">
-            <span>You may now login on your account</span>
+            <Button
+              variant="outlined"
+              className="primary-button"
+              sx={{
+                fontSize: "36px",
+                color: "white",
+                borderRadius: "30px",
+                textDecoration: "none",
+                "&:hover": {
+                  color: "white",
+                },
+              }}
+            >
+              Login
+            </Button>
           </Link>
           <br />
         </Item>

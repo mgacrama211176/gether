@@ -28,7 +28,7 @@ export default function BasicTable({
         <TableBody>
           <TableRow>
             <TableCell>{value}</TableCell>
-            <TableCell>
+            <TableCell sx={{ overflowY: "scroll" }}>
               <MatchedUsers
                 user={user}
                 selected={selected}

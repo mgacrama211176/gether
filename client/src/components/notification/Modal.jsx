@@ -14,8 +14,8 @@ import axios from "axios";
 
 const style = {
   position: "absolute",
-  top: "20%",
-  left: "80%",
+  top: "10%",
+  left: "35%",
   transform: "translate(-50%, -50%)",
   width: 500,
   bgcolor: "background.paper",
@@ -30,13 +30,9 @@ export default function BasicModal({ user }) {
   const handleClose = () => setOpen(false);
 
   //Handling of the functions starts from here......
-
   const [notifications, setNotifications] = useState([]);
-  const [acceptedId, setAcceptedId] = useState("");
   const [loader, setLoader] = useState(false);
-
   const userId = user?.user_id;
-  const matchedUserId = acceptedId;
   const selectedId = user?.user_id;
 
   const fetchingNotif = async () => {
@@ -46,15 +42,16 @@ export default function BasicModal({ user }) {
     setNotifications(data.data);
   };
 
-  const AcceptMatch = async () => {
+  const AcceptMatch = async (matchedUserId) => {
     setLoader(true);
 
-    //accept match function with backend
-    if (acceptedId === "") {
+    // accept match function with backend
+    if (matchedUserId === "") {
       console.log(`try again!`);
       tryAgain();
       setLoader(false);
     } else {
+      console.log(matchedUserId);
       const match = await axios.put(
         "https://getherbackend.onrender.com/addmatch",
         {
@@ -86,7 +83,7 @@ export default function BasicModal({ user }) {
         sx={{
           position: "absolute",
           top: "30px",
-          right: "40px",
+          left: "500px",
           color: "white",
           fontSize: 100,
         }}
@@ -108,12 +105,12 @@ export default function BasicModal({ user }) {
           {notifications.length === 0 ? (
             <>
               <Typography id="modal-modal-title" variant="h6" component="h2">
-                No nofications available!
+                No notifications available!
               </Typography>
             </>
           ) : (
             <>
-              <Box>
+              <Box sx={{ overflowY: "scroll" }}>
                 {notifications.map((notification) => (
                   <>
                     <Box
@@ -138,10 +135,11 @@ export default function BasicModal({ user }) {
                         <>
                           <Button
                             variant="outlined"
-                            onClick={() => {
-                              AcceptMatch();
-                              setAcceptedId(notification.userId);
-                            }}
+                            type="button"
+                            onClick={AcceptMatch.bind(
+                              null,
+                              notification.userId
+                            )}
                           >
                             Accept
                           </Button>

@@ -33,7 +33,14 @@ const Verify = () => {
           height: "100vh",
         }}
       >
-        <Item elevation={3} sx={{ fontSize: "20px" }}>
+        <Item
+          elevation={1}
+          sx={{
+            fontSize: "36px",
+            color: "white",
+            backgroundColor: "transparent",
+          }}
+        >
           Thank you for registering with us. To complete your registration and
           start using our platform, we need to verify your email address. Please
           check your email and follow the instructions in the verification email
