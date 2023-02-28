@@ -24,9 +24,9 @@ export default function ControllableStates({
         }}
         id="controllable-states-demo"
         options={options}
-        sx={{ width: 300 }}
+        sx={{ width: 200 }}
         renderInput={(params) => (
-          <TextField {...params} label="Sort" defaultValue={user.genre} />
+          <TextField {...params} label="Sort Genre" defaultValue={user.genre} />
         )}
       />
     </div>

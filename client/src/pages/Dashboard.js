@@ -21,6 +21,11 @@ const Dashboard = () => {
   const [status, setStatus] = useState("");
   const [filtered, setFiltered] = useState([]);
 
+  //For the sorting UseStates
+  const options = ["rts", "fps", "rpg", "moba"];
+  const [value, setValue] = useState("");
+  const [inputValue, setInputValue] = useState("");
+
   const userId = cookies.UserId;
 
   const getUser = async () => {
@@ -73,7 +78,14 @@ const Dashboard = () => {
       );
     filteredGenderedUsers();
     setFiltered(filteredGenderedUsers);
-  }, [matched, user, update]);
+
+    if (value !== null) {
+      const filteredData = genderedUsers.filter((item) => item.genre === value);
+      console.log(filteredData);
+      setFiltered(filteredData);
+    }
+
+  }, [matched, user, update, value]);
 
   return (
     <>
@@ -96,6 +108,11 @@ const Dashboard = () => {
                   setMatched={setMatched}
                   status={status}
                   setStatus={setStatus}
+                  value={value}
+                  setValue={setValue}
+                  inputValue={inputValue}
+                  setInputValue={setInputValue}
+                  options={options}
                 />
               </>
             ) : (
