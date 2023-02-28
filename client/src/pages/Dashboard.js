@@ -22,8 +22,8 @@ const Dashboard = () => {
   const [filtered, setFiltered] = useState([]);
 
   //For the sorting UseStates
-  const options = ["rts", "fps", "rpg", "moba"];
-  const [value, setValue] = useState("");
+  const options = ["All", "rts", "fps", "rpg", "moba"];
+  const [value, setValue] = useState("All");
   const [inputValue, setInputValue] = useState("");
 
   const userId = cookies.UserId;
@@ -49,6 +49,7 @@ const Dashboard = () => {
           params: { gender: user?.gender_interest },
         }
       );
+      setFiltered(response.data);
       setGenderedUsers(response.data);
     } catch (error) {
       console.log(error);
@@ -67,11 +68,15 @@ const Dashboard = () => {
 
   ///----------------------------------------------------------------------------------------
 
-  const matchedUserIds = user?.matches
-    .map(({ user_id }) => user_id)
-    .concat(userId);
+  // const matchedUserIds = user?.matches
+  //   .map(({ user_id }) => user_id)
+  //   .concat(userId);
 
   useEffect(() => {
+    const matchedUserIds = user?.matches
+      .map(({ user_id }) => user_id)
+      .concat(userId);
+
     const filteredGenderedUsers = () =>
       genderedUsers?.filter(
         (genderedUser) => !matchedUserIds.includes(genderedUser.user_id)
@@ -80,11 +85,17 @@ const Dashboard = () => {
     setFiltered(filteredGenderedUsers);
 
     if (value !== null) {
-      const filteredData = genderedUsers.filter((item) => item.genre === value);
+      const filteredData = genderedUsers?.filter(
+        (item) => item.genre === value
+      );
+
       console.log(filteredData);
       setFiltered(filteredData);
     }
 
+    if (value === "All") {
+      getGenderedUsers();
+    }
   }, [matched, user, update, value]);
 
   return (

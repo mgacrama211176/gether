@@ -121,7 +121,7 @@ const UpdateUser = ({ user, userId, setUpdate }) => {
   };
 
   const closeProfileModal = () => {
-    setUpdate(false);
+    setUpdate(true);
   };
 
   return (

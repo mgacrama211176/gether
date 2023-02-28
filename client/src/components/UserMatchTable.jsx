@@ -80,6 +80,9 @@ export default function BasicTable({
     AddMatch();
   }, [matched]);
 
+  console.log(user.matches.length);
+  console.log(user.matches);
+
   return (
     <>
       <>
@@ -131,26 +134,26 @@ export default function BasicTable({
               </TableRow>
             </TableHead>
             <TableBody>
-              {filtered?.map((user) => (
+              {filtered?.map((User) => (
                 <TableRow
-                  key={user._id}
+                  key={User._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {user.first_name}
+                    {User.first_name}
                   </TableCell>
                   <TableCell component="th" scope="row" align="center">
-                    {user.genre}
+                    {User.genre}
                   </TableCell>
 
-                  <TableCell align="center">{user.email}</TableCell>
+                  <TableCell align="center">{User.email}</TableCell>
                   <TableCell
                     align="center"
                     sx={{ display: "flex", justifyContent: "center" }}
                   >
                     <Avatar
                       alt="Remy Sharp"
-                      src={user.url}
+                      src={User.url}
                       sx={{ float: "center" }}
                     />
                   </TableCell>
@@ -159,15 +162,29 @@ export default function BasicTable({
                       <>
                         <CircularProgress />
                       </>
+                    ) : user.matches.length === 1 ? (
+                      <>
+                        <Button
+                          variant="outlined"
+                          onClick={() => {
+                            setMatched(user.user_id);
+                          }}
+                          disabled
+                        >
+                          pair
+                        </Button>
+                      </>
                     ) : (
-                      <Button
-                        variant="outlined"
-                        onClick={() => {
-                          setMatched(user.user_id);
-                        }}
-                      >
-                        pair
-                      </Button>
+                      <>
+                        <Button
+                          variant="outlined"
+                          onClick={() => {
+                            setMatched(User.user_id);
+                          }}
+                        >
+                          pair
+                        </Button>
+                      </>
                     )}
                   </TableCell>
                 </TableRow>
