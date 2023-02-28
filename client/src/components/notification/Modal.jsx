@@ -30,9 +30,13 @@ export default function BasicModal({ user }) {
   const handleClose = () => setOpen(false);
 
   //Handling of the functions starts from here......
+
   const [notifications, setNotifications] = useState([]);
+  const [acceptedId, setAcceptedId] = useState("");
   const [loader, setLoader] = useState(false);
+
   const userId = user?.user_id;
+  const matchedUserId = acceptedId;
   const selectedId = user?.user_id;
 
   const fetchingNotif = async () => {
@@ -42,16 +46,17 @@ export default function BasicModal({ user }) {
     setNotifications(data.data);
   };
 
-  const AcceptMatch = async (matchedUserId) => {
+  const AcceptMatch = async () => {
+    console.log(acceptedId);
+
     setLoader(true);
 
     // accept match function with backend
-    if (matchedUserId === "") {
+    if (acceptedId === "") {
       console.log(`try again!`);
       tryAgain();
       setLoader(false);
     } else {
-      console.log(matchedUserId);
       const match = await axios.put(
         "https://getherbackend.onrender.com/addmatch",
         {
@@ -133,16 +138,15 @@ export default function BasicModal({ user }) {
                         <CircularProgress />
                       ) : (
                         <>
-                          <Button
+                          {/* <Button
                             variant="outlined"
-                            type="button"
-                            onClick={AcceptMatch.bind(
-                              null,
-                              notification.userId
-                            )}
+                            onClick={() => {
+                              AcceptMatch();
+                              setAcceptedId(notification.userId);
+                            }}
                           >
                             Accept
-                          </Button>
+                          </Button> */}
                         </>
                       )}
                     </Box>
